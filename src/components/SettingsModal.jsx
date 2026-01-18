@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { X, Trash2, LogOut, User, Shield } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { sendAccountDeletedNotification } from '../utils/emailService';
 import './SettingsModal.css';
 
 export default function SettingsModal({ isOpen, onClose }) {
@@ -13,6 +14,9 @@ export default function SettingsModal({ isOpen, onClose }) {
     const handleDeleteAccount = async () => {
         setIsDeleting(true);
         try {
+            // Send deletion notification email before clearing data
+            await sendAccountDeletedNotification(user);
+
             // Clear all local data
             localStorage.clear();
 

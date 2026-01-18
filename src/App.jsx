@@ -7,6 +7,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import LoginScreen from './components/LoginScreen';
+import LiveChat from './components/LiveChat';
 
 // Sections
 import Dashboard from './sections/Dashboard';
@@ -360,6 +361,9 @@ function AppContent() {
             <main className="main-content">
                 {renderSection()}
             </main>
+
+            {/* Live Chat Widget */}
+            <LiveChat />
         </div>
     );
 }

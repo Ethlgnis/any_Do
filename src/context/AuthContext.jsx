@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { sendLoginNotification } from '../utils/emailService';
 
 const AuthContext = createContext(null);
 
@@ -59,6 +60,9 @@ export function AuthProvider({ children }) {
                 };
                 setUser(userData);
                 localStorage.setItem('anydo_user', JSON.stringify(userData));
+
+                // Send login notification email
+                sendLoginNotification(userData);
             } catch (error) {
                 console.error('Error fetching user profile:', error);
             }
