@@ -8,6 +8,7 @@ import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import LoginScreen from './components/LoginScreen';
 import LiveChat from './components/LiveChat';
+import AIAssistant from './components/AIAssistant';
 
 // Sections
 import Dashboard from './sections/Dashboard';
@@ -364,6 +365,15 @@ function AppContent() {
 
             {/* Live Chat Widget */}
             <LiveChat />
+
+            {/* AI Assistant Widget */}
+            <AIAssistant
+                files={files}
+                links={links}
+                todos={todos}
+                chats={chats}
+                onAddTodo={handleTodoAdd}
+            />
         </div>
     );
 }
