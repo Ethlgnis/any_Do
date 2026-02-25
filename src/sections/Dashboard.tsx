@@ -3,7 +3,7 @@ import {
     TrendingUp, Clock, Calendar, ArrowRight
 } from 'lucide-react';
 import { formatFileSize, getRelativeTime } from '../utils/storage';
-import './Dashboard.css';
+import './Dashboard.scss';
 
 export default function Dashboard({
     files, links, todos, chats,

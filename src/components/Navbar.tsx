@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Search, Plus, Menu, X, Cloud, CloudOff, LogOut, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import './Navbar.css';
+import './Navbar.scss';
 
 export default function Navbar({ onSearch, onAddClick, onMenuClick, showMobileMenu, onSync, isSyncing }) {
     const { user, isAuthenticated, logout } = useAuth();

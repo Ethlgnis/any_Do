@@ -4,7 +4,7 @@ import {
     Calendar, MessageSquare
 } from 'lucide-react';
 import { getRelativeTime } from '../utils/storage';
-import './ChatsSection.css';
+import './ChatsSection.scss';
 
 export default function ChatsSection({ chats, onAdd, onDelete, searchQuery }) {
     const [showModal, setShowModal] = useState(false);
