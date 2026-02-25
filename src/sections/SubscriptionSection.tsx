@@ -23,7 +23,7 @@ export default function SubscriptionSection() {
         {
             id: 'pro',
             name: 'Pro',
-            price: '199',
+            price: '29',
             duration: 'per month',
             description: 'Advanced features for professionals',
             features: [
@@ -43,7 +43,7 @@ export default function SubscriptionSection() {
         {
             id: 'elite',
             name: 'Elite',
-            price: '499',
+            price: '99',
             duration: 'per month',
             description: 'Maximum power for power users',
             features: [
