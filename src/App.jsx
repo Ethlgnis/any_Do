@@ -30,13 +30,12 @@ import {
 import { syncDataToDrive, loadDataFromDrive, uploadFileToDrive, deleteFileFromDrive } from './utils/driveStorage';
 
 function AppContent() {
-    const { user, accessToken, isAuthenticated, isLoading } = useAuth();
+    const { accessToken, isAuthenticated, isLoading } = useAuth();
     const [showApp, setShowApp] = useState(false);
     const [activeSection, setActiveSection] = useState('dashboard');
     const [searchQuery, setSearchQuery] = useState('');
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const [isSyncing, setIsSyncing] = useState(false);
-    const [isDataLoading, setIsDataLoading] = useState(true);
 
     // Data states
     const [files, setFiles] = useState([]);
@@ -73,12 +72,38 @@ function AppContent() {
         }
     }, [isAuthenticated, isLoading]);
 
+    // Load data from Google Drive
+    const loadFromDrive = useCallback(async () => {
+        if (!accessToken) return;
+
+        try {
+            const driveData = await loadDataFromDrive(accessToken);
+            if (driveData) {
+                // Merge with local data (Drive takes precedence for conflicts)
+                if (driveData.links) {
+                    localStorage.setItem('anydo_links', JSON.stringify(driveData.links));
+                    setLinks(driveData.links);
+                }
+                if (driveData.todos) {
+                    localStorage.setItem('anydo_todos', JSON.stringify(driveData.todos));
+                    setTodos(driveData.todos);
+                }
+                if (driveData.chats) {
+                    localStorage.setItem('anydo_chats', JSON.stringify(driveData.chats));
+                    setChats(driveData.chats);
+                }
+            }
+        } catch (error) {
+            console.error('Error loading from Drive:', error);
+        }
+    }, [accessToken]);
+
     // Load data from Drive ONLY when authenticated
     useEffect(() => {
         if (isAuthenticated && accessToken) {
             loadFromDrive();
         }
-    }, [isAuthenticated, accessToken]);
+    }, [isAuthenticated, accessToken, loadFromDrive]);
 
     // Update storage usage when data changes
     useEffect(() => {
@@ -102,35 +127,6 @@ function AppContent() {
 
         return () => clearTimeout(syncTimeout);
     }, [links, todos, chats, isAuthenticated, accessToken]);
-
-    // Load data from Google Drive
-    const loadFromDrive = async () => {
-        if (!accessToken) return;
-        setIsDataLoading(true);
-
-        try {
-            const driveData = await loadDataFromDrive(accessToken);
-            if (driveData) {
-                // Merge with local data (Drive takes precedence for conflicts)
-                if (driveData.links) {
-                    localStorage.setItem('anydo_links', JSON.stringify(driveData.links));
-                    setLinks(driveData.links);
-                }
-                if (driveData.todos) {
-                    localStorage.setItem('anydo_todos', JSON.stringify(driveData.todos));
-                    setTodos(driveData.todos);
-                }
-                if (driveData.chats) {
-                    localStorage.setItem('anydo_chats', JSON.stringify(driveData.chats));
-                    setChats(driveData.chats);
-                }
-            }
-        } catch (error) {
-            console.error('Error loading from Drive:', error);
-        } finally {
-            setIsDataLoading(false);
-        }
-    };
 
     // Sync data to Google Drive
     const handleSync = async () => {

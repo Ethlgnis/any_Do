@@ -39,7 +39,7 @@ export default function AIAssistant({ files, links, todos, chats, onAddTodo }) {
         try {
             const response = await aiChat(userMessage, context);
             setMessages(prev => [...prev, { role: 'assistant', content: response }]);
-        } catch (error) {
+        } catch {
             setMessages(prev => [...prev, {
                 role: 'assistant',
                 content: 'Sorry, I encountered an error. Please try again. 🙁'
@@ -97,7 +97,7 @@ export default function AIAssistant({ files, links, todos, chats, onAddTodo }) {
 
             const result = await aiSummarize(content, type === 'chats' ? 'chat' : 'todos');
             setSummary(result);
-        } catch (error) {
+        } catch {
             setSummary('Could not generate summary');
         } finally {
             setIsLoading(false);
@@ -194,7 +194,7 @@ export default function AIAssistant({ files, links, todos, chats, onAddTodo }) {
                                     <div className="ai-placeholder">
                                         <Search size={48} />
                                         <p>Ask anything in natural language</p>
-                                        <span>"Find my project files" or "Show urgent tasks"</span>
+                                        <span>&quot;Find my project files&quot; or &quot;Show urgent tasks&quot;</span>
                                     </div>
                                 )}
                             </div>

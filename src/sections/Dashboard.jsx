@@ -2,7 +2,7 @@ import {
     FolderOpen, Link2, CheckSquare, MessageCircle,
     TrendingUp, Clock, Calendar, ArrowRight
 } from 'lucide-react';
-import { formatDate, getRelativeTime, formatFileSize } from '../utils/storage';
+import { formatFileSize, getRelativeTime } from '../utils/storage';
 import './Dashboard.css';
 
 export default function Dashboard({
@@ -74,7 +74,7 @@ export default function Dashboard({
             <div className="section-header">
                 <div>
                     <h1 className="section-title gradient-text">Welcome Back</h1>
-                    <p className="section-subtitle">Here's what's happening with your data</p>
+                    <p className="section-subtitle">Here&apos;s what&apos;s happening with your data</p>
                 </div>
             </div>
 

@@ -1,9 +1,9 @@
 import { useState, useRef, useCallback } from 'react';
 import {
     Upload, File, FileText, Image, Film, Music, Archive,
-    Code, Grid, List, Trash2, Download, Eye, X, Calendar
+    Code, Grid, List, Trash2, Eye, Calendar
 } from 'lucide-react';
-import { formatDate, formatFileSize, getFileIcon, getRelativeTime } from '../utils/storage';
+import { formatFileSize, getFileIcon, getRelativeTime } from '../utils/storage';
 import './FilesSection.css';
 
 const fileIcons = {
@@ -20,7 +20,6 @@ const fileIcons = {
 export default function FilesSection({ files, onUpload, onDelete, onView, searchQuery }) {
     const [isDragging, setIsDragging] = useState(false);
     const [viewMode, setViewMode] = useState('grid');
-    const [previewFile, setPreviewFile] = useState(null);
     const fileInputRef = useRef(null);
 
     const filteredFiles = files.filter(file =>
