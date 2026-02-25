@@ -1,6 +1,6 @@
 import { useAuth } from '../context/AuthContext';
 import { Cloud } from 'lucide-react';
-import './LoginScreen.css';
+import './LoginScreen.scss';
 
 export default function LoginScreen() {
     const { login, isLoading } = useAuth();

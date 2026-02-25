@@ -4,7 +4,7 @@ import {
     MessageSquare, Loader2, Plus, ChevronRight
 } from 'lucide-react';
 import { aiChat, aiSearch, aiSummarize, aiSuggestions } from '../utils/aiService';
-import './AIAssistant.css';
+import './AIAssistant.scss';
 
 export default function AIAssistant({ files, links, todos, chats, onAddTodo }) {
     const [isOpen, setIsOpen] = useState(false);

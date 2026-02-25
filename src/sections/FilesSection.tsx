@@ -4,7 +4,7 @@ import {
     Code, Grid, List, Trash2, Eye, Calendar
 } from 'lucide-react';
 import { formatFileSize, getFileIcon, getRelativeTime } from '../utils/storage';
-import './FilesSection.css';
+import './FilesSection.scss';
 
 const fileIcons = {
     image: Image,

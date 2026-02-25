@@ -8,7 +8,7 @@ import {
     sendMessage,
     subscribeToMessages
 } from '../utils/firebaseChat';
-import './LiveChat.css';
+import './LiveChat.scss';
 
 export default function LiveChat() {
     const { user, isAuthenticated } = useAuth();

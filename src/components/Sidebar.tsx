@@ -7,7 +7,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { getDriveQuota } from '../utils/driveStorage';
 import SettingsModal from './SettingsModal';
-import './Sidebar.css';
+import './Sidebar.scss';
 
 const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -17,11 +17,22 @@ const navItems = [
     { id: 'chats', label: 'Chats', icon: MessageCircle },
 ];
 
-export default function Sidebar({ activeSection, onSectionChange }) {
+interface SidebarProps {
+    activeSection: string;
+    onSectionChange: (sectionId: string) => void;
+}
+
+interface DriveStorage {
+    used: number;
+    limit: number;
+    usedInDrive: number;
+}
+
+export default function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
     const { isAuthenticated, accessToken, login } = useAuth();
     const [collapsed, setCollapsed] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
-    const [driveStorage, setDriveStorage] = useState(null);
+    const [driveStorage, setDriveStorage] = useState<DriveStorage | null>(null);
     const [isLoadingStorage, setIsLoadingStorage] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
 
@@ -74,7 +85,7 @@ export default function Sidebar({ activeSection, onSectionChange }) {
         }
     }, [isAuthenticated, accessToken, fetchDriveStorage]);
 
-    const formatBytes = (bytes) => {
+    const formatBytes = (bytes: number) => {
         if (bytes === 0) return '0 B';
         const k = 1024;
         const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
