@@ -13,7 +13,7 @@ const DB_NAME = 'AnyDoDB';
 const DB_VERSION = 1;
 const FILE_STORE = 'files';
 
-let db = null;
+let db: IDBDatabase | null = null;
 
 const initDB = () => {
     return new Promise((resolve, reject) => {
@@ -31,7 +31,7 @@ const initDB = () => {
         };
 
         request.onupgradeneeded = (event) => {
-            const database = event.target.result;
+            const database = (event.target as IDBOpenDBRequest).result;
             if (!database.objectStoreNames.contains(FILE_STORE)) {
                 database.createObjectStore(FILE_STORE, { keyPath: 'id' });
             }
@@ -45,7 +45,7 @@ export const generateId = () => {
 };
 
 // Helper to format dates
-export const formatDate = (date) => {
+export const formatDate = (date: any) => {
     const d = new Date(date);
     const options = {
         year: 'numeric',
@@ -53,20 +53,20 @@ export const formatDate = (date) => {
         day: 'numeric',
         hour: '2-digit',
         minute: '2-digit'
-    };
+    } as Intl.DateTimeFormatOptions;
     return d.toLocaleDateString('en-US', options);
 };
 
-export const formatDateShort = (date) => {
+export const formatDateShort = (date: any) => {
     const d = new Date(date);
-    const options = { month: 'short', day: 'numeric' };
+    const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
     return d.toLocaleDateString('en-US', options);
 };
 
-export const getRelativeTime = (date) => {
+export const getRelativeTime = (date: any) => {
     const now = new Date();
     const d = new Date(date);
-    const diff = now - d;
+    const diff = now.getTime() - d.getTime();
 
     const minutes = Math.floor(diff / 60000);
     const hours = Math.floor(diff / 3600000);
@@ -83,8 +83,8 @@ export const getRelativeTime = (date) => {
 // Files Storage
 // ============================================
 
-export const saveFile = async (file) => {
-    const database = await initDB();
+export const saveFile = async (file: any): Promise<any> => {
+    const database = (await initDB()) as IDBDatabase;
 
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -130,19 +130,19 @@ export const getFilesMetadata = () => {
     return data ? JSON.parse(data) : [];
 };
 
-export const updateFileMetadata = (id, updates) => {
-    const files = getFilesMetadata().map(file =>
+export const updateFileMetadata = (id: string, updates: any) => {
+    const files = getFilesMetadata().map((file: any) =>
         file.id === id ? { ...file, ...updates } : file
     );
     localStorage.setItem(STORAGE_KEYS.FILES, JSON.stringify(files));
 };
 
-export const getFileMetadataById = (id) => {
-    return getFilesMetadata().find(file => file.id === id);
+export const getFileMetadataById = (id: string) => {
+    return getFilesMetadata().find((file: any) => file.id === id);
 };
 
-export const getFileById = async (id) => {
-    const database = await initDB();
+export const getFileById = async (id: string) => {
+    const database = await initDB() as IDBDatabase;
 
     return new Promise((resolve, reject) => {
         const transaction = database.transaction([FILE_STORE], 'readonly');
@@ -154,16 +154,16 @@ export const getFileById = async (id) => {
     });
 };
 
-export const deleteFile = async (id) => {
-    const database = await initDB();
+export const deleteFile = async (id: string): Promise<void> => {
+    const database = await initDB() as IDBDatabase;
 
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
         const transaction = database.transaction([FILE_STORE], 'readwrite');
         const store = transaction.objectStore(FILE_STORE);
         store.delete(id);
 
         transaction.oncomplete = () => {
-            const files = getFilesMetadata().filter(f => f.id !== id);
+            const files = getFilesMetadata().filter((f: any) => f.id !== id);
             localStorage.setItem(STORAGE_KEYS.FILES, JSON.stringify(files));
             resolve();
         };
@@ -176,7 +176,7 @@ export const deleteFile = async (id) => {
 // Links Storage
 // ============================================
 
-export const saveLink = (link) => {
+export const saveLink = (link: any) => {
     const links = getLinks();
     const newLink = {
         id: generateId(),
@@ -196,15 +196,15 @@ export const getLinks = () => {
     return data ? JSON.parse(data) : [];
 };
 
-export const updateLink = (id, updates) => {
-    const links = getLinks().map(link =>
+export const updateLink = (id: string, updates: any) => {
+    const links = getLinks().map((link: any) =>
         link.id === id ? { ...link, ...updates } : link
     );
     localStorage.setItem(STORAGE_KEYS.LINKS, JSON.stringify(links));
 };
 
-export const deleteLink = (id) => {
-    const links = getLinks().filter(link => link.id !== id);
+export const deleteLink = (id: string) => {
+    const links = getLinks().filter((link: any) => link.id !== id);
     localStorage.setItem(STORAGE_KEYS.LINKS, JSON.stringify(links));
 };
 
@@ -212,7 +212,7 @@ export const deleteLink = (id) => {
 // Todos Storage
 // ============================================
 
-export const saveTodo = (todo) => {
+export const saveTodo = (todo: any) => {
     const todos = getTodos();
     const newTodo = {
         id: generateId(),
@@ -234,8 +234,8 @@ export const getTodos = () => {
     return data ? JSON.parse(data) : [];
 };
 
-export const updateTodo = (id, updates) => {
-    const todos = getTodos().map(todo => {
+export const updateTodo = (id: string, updates: any) => {
+    const todos = getTodos().map((todo: any) => {
         if (todo.id === id) {
             const updatedTodo = { ...todo, ...updates };
             if (updates.completed && !todo.completed) {
@@ -248,8 +248,8 @@ export const updateTodo = (id, updates) => {
     localStorage.setItem(STORAGE_KEYS.TODOS, JSON.stringify(todos));
 };
 
-export const deleteTodo = (id) => {
-    const todos = getTodos().filter(todo => todo.id !== id);
+export const deleteTodo = (id: string) => {
+    const todos = getTodos().filter((todo: any) => todo.id !== id);
     localStorage.setItem(STORAGE_KEYS.TODOS, JSON.stringify(todos));
 };
 
@@ -257,7 +257,7 @@ export const deleteTodo = (id) => {
 // Chats Storage
 // ============================================
 
-export const saveChat = (chat) => {
+export const saveChat = (chat: any) => {
     const chats = getChats();
     const newChat = {
         id: generateId(),
@@ -276,12 +276,12 @@ export const getChats = () => {
     return data ? JSON.parse(data) : [];
 };
 
-export const getChatById = (id) => {
-    return getChats().find(chat => chat.id === id);
+export const getChatById = (id: string) => {
+    return getChats().find((chat: any) => chat.id === id);
 };
 
-export const deleteChat = (id) => {
-    const chats = getChats().filter(chat => chat.id !== id);
+export const deleteChat = (id: string) => {
+    const chats = getChats().filter((chat: any) => chat.id !== id);
     localStorage.setItem(STORAGE_KEYS.CHATS, JSON.stringify(chats));
 };
 
@@ -289,7 +289,8 @@ export const deleteChat = (id) => {
 // Utility Functions
 // ============================================
 
-export const getFileIcon = (type) => {
+export const getFileIcon = (type: string) => {
+    if (!type) return 'file';
     if (type.startsWith('image/')) return 'image';
     if (type === 'application/pdf') return 'pdf';
     if (type.includes('document') || type.includes('word')) return 'doc';
@@ -302,7 +303,7 @@ export const getFileIcon = (type) => {
     return 'file';
 };
 
-export const formatFileSize = (bytes) => {
+export const formatFileSize = (bytes: any) => {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
@@ -333,7 +334,7 @@ export const exportAllData = () => {
 };
 
 // Import data from backup
-export const importData = (data) => {
+export const importData = (data: any) => {
     if (data.links) localStorage.setItem(STORAGE_KEYS.LINKS, JSON.stringify(data.links));
     if (data.todos) localStorage.setItem(STORAGE_KEYS.TODOS, JSON.stringify(data.todos));
     if (data.chats) localStorage.setItem(STORAGE_KEYS.CHATS, JSON.stringify(data.chats));

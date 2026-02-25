@@ -6,32 +6,39 @@ import {
 import { getRelativeTime } from '../utils/storage';
 import './ChatsSection.scss';
 
-export default function ChatsSection({ chats, onAdd, onDelete, searchQuery }) {
+interface ChatsSectionProps {
+    chats: any[];
+    onAdd: (chat: any) => void;
+    onDelete: (id: string) => void;
+    searchQuery: string;
+}
+
+export default function ChatsSection({ chats, onAdd, onDelete, searchQuery }: ChatsSectionProps) {
     const [showModal, setShowModal] = useState(false);
-    const [viewingChat, setViewingChat] = useState(null);
+    const [viewingChat, setViewingChat] = useState<{ name: string; content: string } | null>(null);
     const [formData, setFormData] = useState({ name: '', content: '' });
-    const fileInputRef = useRef(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const filteredChats = chats.filter(chat =>
         chat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         chat.content.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const handleFileUpload = (e) => {
-        const file = e.target.files[0];
+    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = (event) => {
                 setFormData({
                     name: file.name.replace('.txt', ''),
-                    content: event.target.result
+                    content: (event.target?.result as string) || ''
                 });
             };
             reader.readAsText(file);
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!formData.content.trim()) return;
 
@@ -44,7 +51,7 @@ export default function ChatsSection({ chats, onAdd, onDelete, searchQuery }) {
         setShowModal(false);
     };
 
-    const parseWhatsAppMessage = (line) => {
+    const parseWhatsAppMessage = (line: string) => {
         // WhatsApp format: [DD/MM/YYYY, HH:MM:SS] Sender: Message
         // or: DD/MM/YYYY, HH:MM - Sender: Message
         const patterns = [
@@ -67,11 +74,11 @@ export default function ChatsSection({ chats, onAdd, onDelete, searchQuery }) {
         return null;
     };
 
-    const renderChatContent = (content) => {
+    const renderChatContent = (content: string) => {
         const lines = content.split('\n');
         let lastSender = '';
 
-        return lines.map((line, index) => {
+        return lines.map((line: string, index: number) => {
             const parsed = parseWhatsAppMessage(line);
 
             if (parsed) {
@@ -255,14 +262,14 @@ export default function ChatsSection({ chats, onAdd, onDelete, searchQuery }) {
                 <div className="modal-overlay" onClick={() => setViewingChat(null)}>
                     <div className="modal chat-viewer-modal" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h2 className="modal-title">{viewingChat.name}</h2>
+                            <h2 className="modal-title">{viewingChat?.name}</h2>
                             <button className="modal-close" onClick={() => setViewingChat(null)}>
                                 <X size={18} />
                             </button>
                         </div>
                         <div className="modal-body chat-viewer-body">
                             <div className="chat-messages">
-                                {renderChatContent(viewingChat.content)}
+                                {renderChatContent(viewingChat?.content)}
                             </div>
                         </div>
                     </div>

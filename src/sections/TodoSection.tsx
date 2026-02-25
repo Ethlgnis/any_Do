@@ -12,7 +12,15 @@ const priorities = [
     { value: 'high', label: 'High', color: 'var(--error)' },
 ];
 
-export default function TodoSection({ todos, onAdd, onUpdate, onDelete, searchQuery }) {
+interface TodoSectionProps {
+    todos: any[];
+    onAdd: (todo: any) => void;
+    onUpdate: (id: string, updates: any) => void;
+    onDelete: (id: string) => void;
+    searchQuery: string;
+}
+
+export default function TodoSection({ todos, onAdd, onUpdate, onDelete, searchQuery }: TodoSectionProps) {
     const [showModal, setShowModal] = useState(false);
     const [filter, setFilter] = useState('all');
     const [formData, setFormData] = useState({
@@ -36,7 +44,7 @@ export default function TodoSection({ todos, onAdd, onUpdate, onDelete, searchQu
     const activeTodos = todos.filter(t => !t.completed).length;
     const completedTodos = todos.filter(t => t.completed).length;
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!formData.title.trim()) return;
 
@@ -51,16 +59,16 @@ export default function TodoSection({ todos, onAdd, onUpdate, onDelete, searchQu
         setShowModal(false);
     };
 
-    const toggleComplete = (id, completed) => {
+    const toggleComplete = (id: string, completed: boolean) => {
         onUpdate(id, { completed: !completed });
     };
 
-    const getPriorityStyle = (priority) => {
+    const getPriorityStyle = (priority: string) => {
         const p = priorities.find(pr => pr.value === priority);
         return { '--priority-color': p?.color || 'var(--text-tertiary)' };
     };
 
-    const isOverdue = (dueDate) => {
+    const isOverdue = (dueDate: Date | string | null) => {
         if (!dueDate) return false;
         return new Date(dueDate) < new Date() && new Date(dueDate).toDateString() !== new Date().toDateString();
     };

@@ -5,7 +5,12 @@ import { useTheme } from '../context/ThemeContext';
 import { sendAccountDeletedNotification } from '../utils/emailService';
 import './SettingsModal.scss';
 
-export default function SettingsModal({ isOpen, onClose }) {
+interface SettingsModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
     const { user, logout } = useAuth();
     const { theme, toggleTheme } = useTheme();
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);

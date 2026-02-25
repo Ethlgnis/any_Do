@@ -23,10 +23,10 @@ import ChatsSection from './sections/ChatsSection';
 // Storage utilities
 import {
     saveFile, getFilesMetadata, deleteFile, getFileById,
-    saveLink, getLinks, updateLink, deleteLink,
+    saveLink, getLinks, deleteLink,
     saveTodo, getTodos, updateTodo, deleteTodo,
     saveChat, getChats, deleteChat,
-    getStorageUsage, updateFileMetadata, getFileMetadataById
+    updateFileMetadata, getFileMetadataById
 } from './utils/storage';
 
 // Drive storage
@@ -40,12 +40,21 @@ function AppContent() {
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const [isSyncing, setIsSyncing] = useState(false);
 
-    // Data states
-    const [files, setFiles] = useState([]);
-    const [links, setLinks] = useState([]);
-    const [todos, setTodos] = useState([]);
-    const [chats, setChats] = useState([]);
-    const [storageUsed, setStorageUsed] = useState(0);
+    interface AnyDoFile {
+    id: string;
+    name: string;
+    type: string;
+    size: number;
+    data?: string | ArrayBuffer | null;
+    addedAt: string;
+    driveFileId?: string | null;
+}
+
+// Data states
+    const [files, setFiles] = useState<AnyDoFile[]>([]);
+    const [links, setLinks] = useState<any[]>([]);
+    const [todos, setTodos] = useState<any[]>([]);
+    const [chats, setChats] = useState<any[]>([]);
 
     // Handle skip login event - skip login is disabled now (require login)
     useEffect(() => {
@@ -69,7 +78,6 @@ function AppContent() {
             setLinks([]);
             setTodos([]);
             setChats([]);
-            setStorageUsed(0);
             // Redirect to login page
             setShowApp(false);
         }
@@ -108,13 +116,6 @@ function AppContent() {
         }
     }, [isAuthenticated, accessToken, loadFromDrive]);
 
-    // Update storage usage when data changes
-    useEffect(() => {
-        if (isAuthenticated) {
-            setStorageUsed(getStorageUsage());
-        }
-    }, [files, links, todos, chats, isAuthenticated]);
-
     // Auto-sync to Drive when data changes (debounced)
     useEffect(() => {
         if (!isAuthenticated || !accessToken) return;
@@ -152,9 +153,9 @@ function AppContent() {
     };
 
     // File handlers
-    const handleFileUpload = useCallback(async (file) => {
+    const handleFileUpload = useCallback(async (file: File) => {
         try {
-            const savedFile = await saveFile(file);
+            const savedFile = await saveFile(file) as AnyDoFile;
             setFiles(getFilesMetadata());
 
             // Also upload to Drive if authenticated
@@ -175,7 +176,7 @@ function AppContent() {
         }
     }, [accessToken]);
 
-    const handleFileDelete = useCallback(async (id) => {
+    const handleFileDelete = useCallback(async (id: string) => {
         try {
             // Get file metadata to check for Drive ID
             const fileMeta = getFileMetadataById(id);
@@ -198,9 +199,9 @@ function AppContent() {
         }
     }, [accessToken]);
 
-    const handleFileView = useCallback(async (file) => {
+    const handleFileView = useCallback(async (file: AnyDoFile) => {
         try {
-            const fullFile = await getFileById(file.id);
+            const fullFile = await getFileById(file.id) as AnyDoFile;
             if (fullFile?.data) {
                 const win = window.open();
                 if (win) {
@@ -218,7 +219,7 @@ function AppContent() {
             `);
                     } else {
                         const link = document.createElement('a');
-                        link.href = fullFile.data;
+                        link.href = fullFile.data as string;
                         link.download = fullFile.name;
                         link.click();
                     }
@@ -230,44 +231,39 @@ function AppContent() {
     }, []);
 
     // Link handlers
-    const handleLinkAdd = useCallback((link) => {
+    const handleLinkAdd = useCallback((link: any) => {
         saveLink(link);
         setLinks(getLinks());
     }, []);
 
-    const handleLinkUpdate = useCallback((id, updates) => {
-        updateLink(id, updates);
-        setLinks(getLinks());
-    }, []);
-
-    const handleLinkDelete = useCallback((id) => {
+    const handleLinkDelete = useCallback((id: string) => {
         deleteLink(id);
         setLinks(getLinks());
     }, []);
 
     // Todo handlers
-    const handleTodoAdd = useCallback((todo) => {
+    const handleTodoAdd = useCallback((todo: any) => {
         saveTodo(todo);
         setTodos(getTodos());
     }, []);
 
-    const handleTodoUpdate = useCallback((id, updates) => {
+    const handleTodoUpdate = useCallback((id: string, updates: any) => {
         updateTodo(id, updates);
         setTodos(getTodos());
     }, []);
 
-    const handleTodoDelete = useCallback((id) => {
+    const handleTodoDelete = useCallback((id: string) => {
         deleteTodo(id);
         setTodos(getTodos());
     }, []);
 
     // Chat handlers
-    const handleChatAdd = useCallback((chat) => {
+    const handleChatAdd = useCallback((chat: any) => {
         saveChat(chat);
         setChats(getChats());
     }, []);
 
-    const handleChatDelete = useCallback((id) => {
+    const handleChatDelete = useCallback((id: string) => {
         deleteChat(id);
         setChats(getChats());
     }, []);
@@ -312,7 +308,6 @@ function AppContent() {
                     <LinksSection
                         links={links}
                         onAdd={handleLinkAdd}
-                        onUpdate={handleLinkUpdate}
                         onDelete={handleLinkDelete}
                         searchQuery={searchQuery}
                     />
@@ -346,7 +341,6 @@ function AppContent() {
             <Sidebar
                 activeSection={activeSection}
                 onSectionChange={setActiveSection}
-                storageUsed={storageUsed}
             />
 
             <Navbar

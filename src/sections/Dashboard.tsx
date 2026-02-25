@@ -5,10 +5,18 @@ import {
 import { formatFileSize, getRelativeTime } from '../utils/storage';
 import './Dashboard.scss';
 
+interface DashboardProps {
+    files: any[];
+    links: any[];
+    todos: any[];
+    chats: any[];
+    onNavigate: (sectionId: string) => void;
+}
+
 export default function Dashboard({
     files, links, todos, chats,
     onNavigate
-}) {
+}: DashboardProps) {
     const stats = [
         {
             id: 'files',
@@ -48,20 +56,20 @@ export default function Dashboard({
         ...todos.map(t => ({ ...t, type: 'todo', section: 'todos' })),
         ...chats.map(c => ({ ...c, type: 'chat', section: 'chats' })),
     ]
-        .sort((a, b) => new Date(b.addedAt) - new Date(a.addedAt))
+        .sort((a, b) => new Date(b.addedAt).getTime() - new Date(a.addedAt).getTime())
         .slice(0, 8);
 
-    const getItemIcon = (type) => {
-        const icons = {
+    const getItemIcon = (type: string) => {
+        const icons: Record<string, any> = {
             file: FolderOpen,
             link: Link2,
             todo: CheckSquare,
             chat: MessageCircle
         };
-        return icons[type];
+        return icons[type] || FolderOpen;
     };
 
-    const getItemTitle = (item) => {
+    const getItemTitle = (item: any) => {
         if (item.type === 'file') return item.name;
         if (item.type === 'link') return item.title || item.url;
         if (item.type === 'todo') return item.title;
@@ -89,7 +97,7 @@ export default function Dashboard({
                             style={{
                                 animationDelay: `${index * 0.1}s`,
                                 '--stat-color': stat.color
-                            }}
+                            } as React.CSSProperties}
                             onClick={() => onNavigate(stat.id)}
                         >
                             <div className="stat-icon">

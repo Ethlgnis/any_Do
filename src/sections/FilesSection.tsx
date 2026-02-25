@@ -17,40 +17,48 @@ const fileIcons = {
     file: File,
 };
 
-export default function FilesSection({ files, onUpload, onDelete, onView, searchQuery }) {
+interface FilesSectionProps {
+    files: any[];
+    onUpload: (file: any) => void;
+    onDelete: (id: string) => void;
+    onView: (file: any) => void;
+    searchQuery: string;
+}
+
+export default function FilesSection({ files, onUpload, onDelete, onView, searchQuery }: FilesSectionProps) {
     const [isDragging, setIsDragging] = useState(false);
     const [viewMode, setViewMode] = useState('grid');
-    const fileInputRef = useRef(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const filteredFiles = files.filter(file =>
         file.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const handleDragOver = useCallback((e) => {
+    const handleDragOver = useCallback((e: any) => {
         e.preventDefault();
         setIsDragging(true);
     }, []);
 
-    const handleDragLeave = useCallback((e) => {
+    const handleDragLeave = useCallback((e: any) => {
         e.preventDefault();
         setIsDragging(false);
     }, []);
 
-    const handleDrop = useCallback((e) => {
+    const handleDrop = useCallback((e: any) => {
         e.preventDefault();
         setIsDragging(false);
         const droppedFiles = Array.from(e.dataTransfer.files);
         droppedFiles.forEach(file => onUpload(file));
     }, [onUpload]);
 
-    const handleFileSelect = (e) => {
+    const handleFileSelect = (e: any) => {
         const selectedFiles = Array.from(e.target.files);
         selectedFiles.forEach(file => onUpload(file));
         e.target.value = '';
     };
 
-    const getIconComponent = (type) => {
-        const iconType = getFileIcon(type);
+    const getIconComponent = (type: string) => {
+        const iconType = getFileIcon(type) as keyof typeof fileIcons;
         return fileIcons[iconType] || File;
     };
 

@@ -1,12 +1,23 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-const ThemeContext = createContext();
+interface ThemeContextType {
+    theme: string;
+    setTheme: (theme: string) => void;
+    toggleTheme: () => void;
+}
+
+const ThemeContext = createContext<ThemeContextType>({
+    theme: 'light',
+    setTheme: () => {},
+    toggleTheme: () => {}
+});
 
 export function useTheme() {
     return useContext(ThemeContext);
 }
 
-export function ThemeProvider({ children }) {
+export function ThemeProvider({ children }: { children: ReactNode }) {
     // Default to 'light' as requested by the user
     const [theme, setTheme] = useState(() => {
         const savedTheme = localStorage.getItem('anydo_theme');

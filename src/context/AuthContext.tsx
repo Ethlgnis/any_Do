@@ -1,16 +1,22 @@
-import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { sendLoginNotification } from '../utils/emailService';
 
-const AuthContext = createContext(null);
+declare global {
+    interface Window {
+        google?: any;
+    }
+}
+
+const AuthContext = createContext<any>(null);
 
 // Your Google Cloud OAuth Client ID
 const GOOGLE_CLIENT_ID = '654874405185-6koeq1ij3q1onptd6rj2s6rctot99nid.apps.googleusercontent.com';
 
-export function AuthProvider({ children }) {
-    const [user, setUser] = useState(null);
-    const [accessToken, setAccessToken] = useState(null);
+export function AuthProvider({ children }: { children: ReactNode }) {
+    const [user, setUser] = useState<any>(null);
+    const [accessToken, setAccessToken] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [tokenClient, setTokenClient] = useState(null);
+    const [tokenClient, setTokenClient] = useState<any>(null);
 
     // Initialize Google Identity Services
     useEffect(() => {
@@ -41,7 +47,7 @@ export function AuthProvider({ children }) {
         initializeGoogleAuth();
     }, []);
 
-    const handleTokenResponse = async (response) => {
+    const handleTokenResponse = async (response: any) => {
         if (response.access_token) {
             setAccessToken(response.access_token);
             localStorage.setItem('anydo_token', response.access_token);

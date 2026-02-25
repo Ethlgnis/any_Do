@@ -11,6 +11,12 @@ const EMAILJS_CONFIG = {
     publicKey: '7EA5pgn595Ku0EKJ-'
 };
 
+declare global {
+    interface Window {
+        emailjs?: any;
+    }
+}
+
 // Load EmailJS SDK
 const loadEmailJS = () => {
     return new Promise((resolve, reject) => {
@@ -34,11 +40,11 @@ const loadEmailJS = () => {
  * Send login notification email to user
  * @param {Object} user - User object with name and email
  */
-export async function sendLoginNotification(user) {
+export async function sendLoginNotification(user: any) {
     if (!user?.email) return;
 
     try {
-        const emailjs = await loadEmailJS();
+        const emailjs = await loadEmailJS() as any;
 
         await emailjs.send(
             EMAILJS_CONFIG.serviceId,
@@ -62,11 +68,11 @@ export async function sendLoginNotification(user) {
  * Send account deletion notification email to user
  * @param {Object} user - User object with name and email
  */
-export async function sendAccountDeletedNotification(user) {
+export async function sendAccountDeletedNotification(user: any) {
     if (!user?.email) return;
 
     try {
-        const emailjs = await loadEmailJS();
+        const emailjs = await loadEmailJS() as any;
 
         await emailjs.send(
             EMAILJS_CONFIG.serviceId,

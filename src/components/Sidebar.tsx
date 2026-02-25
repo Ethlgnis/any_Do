@@ -138,9 +138,7 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
                 {/* Navigation */}
                 <nav className="sidebar-nav">
                     <ul className="nav-list">
-                        {navItems.map((item) => {
-                            const Icon = item.icon;
-                            return (
+                        {navItems.map((item) => (
                                 <li key={item.id}>
                                     <button
                                         className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
@@ -150,15 +148,14 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
                                         }}
                                         title={collapsed ? item.label : undefined}
                                     >
-                                        <Icon size={20} />
+                                        <item.icon size={20} />
                                         {!collapsed && <span>{item.label}</span>}
                                         {!collapsed && activeSection === item.id && (
                                             <div className="nav-indicator" />
                                         )}
                                     </button>
                                 </li>
-                            );
-                        })}
+                        ))}
                     </ul>
                 </nav>
 

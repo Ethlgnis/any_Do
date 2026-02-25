@@ -8,7 +8,14 @@ import './LinksSection.scss';
 
 const categories = ['General', 'Work', 'Personal', 'Learning', 'Social', 'News', 'Shopping'];
 
-export default function LinksSection({ links, onAdd, onDelete, searchQuery }) {
+interface LinksSectionProps {
+    links: any[];
+    onAdd: (link: any) => void;
+    onDelete: (id: string) => void;
+    searchQuery: string;
+}
+
+export default function LinksSection({ links, onAdd, onDelete, searchQuery }: LinksSectionProps) {
     const [showModal, setShowModal] = useState(false);
     const [formData, setFormData] = useState({
         url: '',
@@ -23,7 +30,7 @@ export default function LinksSection({ links, onAdd, onDelete, searchQuery }) {
         link.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!formData.url) return;
 
@@ -38,16 +45,16 @@ export default function LinksSection({ links, onAdd, onDelete, searchQuery }) {
         setShowModal(false);
     };
 
-    const copyToClipboard = async (url) => {
+    const copyToClipboard = async (url: string) => {
         await navigator.clipboard.writeText(url);
     };
 
-    const getFaviconUrl = (url) => {
+    const getFaviconUrl = (url: string) => {
         try {
             const domain = new URL(url).hostname;
             return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
         } catch {
-            return null;
+            return undefined;
         }
     };
 
