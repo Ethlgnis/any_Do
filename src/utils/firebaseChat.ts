@@ -25,9 +25,21 @@ const firebaseConfig = {
     measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
+// Initialize Firebase conditionally to prevent crash on empty/placeholder config
+let app = null;
+let database = null;
+
+try {
+    const isPlaceholder = !firebaseConfig.apiKey || firebaseConfig.apiKey.includes('your_firebase_api_key');
+    if (!isPlaceholder && firebaseConfig.databaseURL && firebaseConfig.databaseURL.startsWith('http')) {
+        app = initializeApp(firebaseConfig);
+        database = getDatabase(app);
+    } else {
+        console.warn('Firebase initialization skipped: Please set up valid VITE_FIREBASE variables in .env');
+    }
+} catch (error) {
+    console.error('Failed to initialize Firebase:', error);
+}
 
 /**
  * Generate a short user ID from Google ID
@@ -43,7 +55,8 @@ export function generateChatUserId(googleId) {
 /**
  * Set user online presence
  */
-export function setUserOnline(user) {
+export function setUserOnline(user: any) {
+    if (!database) return null;
     if (!user?.id) return;
 
     const chatUserId = generateChatUserId(user.id);
@@ -68,7 +81,8 @@ export function setUserOnline(user) {
 /**
  * Set user offline
  */
-export function setUserOffline(chatUserId) {
+export function setUserOffline(chatUserId: any) {
+    if (!database) return;
     if (!chatUserId) return;
     const userRef = ref(database, `presence/${chatUserId}`);
     remove(userRef);
@@ -77,11 +91,15 @@ export function setUserOffline(chatUserId) {
 /**
  * Subscribe to online users
  */
-export function subscribeToOnlineUsers(callback) {
+export function subscribeToOnlineUsers(callback: any) {
+    if (!database) {
+        callback([]);
+        return () => {};
+    }
     const presenceRef = ref(database, 'presence');
 
     return onValue(presenceRef, (snapshot) => {
-        const users = [];
+        const users: any[] = [];
         snapshot.forEach((child) => {
             users.push(child.val());
         });
@@ -92,7 +110,8 @@ export function subscribeToOnlineUsers(callback) {
 /**
  * Send a message to another user
  */
-export function sendMessage(fromUser, toUserId, message) {
+export function sendMessage(fromUser: any, toUserId: any, message: any) {
+    if (!database) return null;
     if (!fromUser || !toUserId || !message.trim()) return;
 
     const fromUserId = generateChatUserId(fromUser.id);
@@ -114,7 +133,11 @@ export function sendMessage(fromUser, toUserId, message) {
 /**
  * Subscribe to messages in a conversation
  */
-export function subscribeToMessages(userId1, userId2, callback) {
+export function subscribeToMessages(userId1: any, userId2: any, callback: any) {
+    if (!database) {
+        callback([]);
+        return () => {};
+    }
     const conversationId = [userId1, userId2].sort().join('_');
     const messagesRef = query(
         ref(database, `messages/${conversationId}`),
@@ -123,7 +146,7 @@ export function subscribeToMessages(userId1, userId2, callback) {
     );
 
     return onValue(messagesRef, (snapshot) => {
-        const messages = [];
+        const messages: any[] = [];
         snapshot.forEach((child) => {
             messages.push({ id: child.key, ...child.val() });
         });
@@ -134,11 +157,15 @@ export function subscribeToMessages(userId1, userId2, callback) {
 /**
  * Subscribe to all messages for a user (for notifications)
  */
-export function subscribeToAllUserMessages(chatUserId, callback) {
+export function subscribeToAllUserMessages(chatUserId: any, callback: any) {
+    if (!database) {
+        callback([]);
+        return () => {};
+    }
     const messagesRef = ref(database, 'messages');
 
     return onValue(messagesRef, (snapshot) => {
-        const allMessages = [];
+        const allMessages: any[] = [];
         snapshot.forEach((conversation) => {
             const convId = conversation.key;
             if (convId.includes(chatUserId)) {

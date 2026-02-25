@@ -19,6 +19,7 @@ import FilesSection from './sections/FilesSection';
 import LinksSection from './sections/LinksSection';
 import TodoSection from './sections/TodoSection';
 import ChatsSection from './sections/ChatsSection';
+import SubscriptionSection from './sections/SubscriptionSection';
 
 // Storage utilities
 import {
@@ -331,6 +332,8 @@ function AppContent() {
                         searchQuery={searchQuery}
                     />
                 );
+            case 'subscription':
+                return <SubscriptionSection />;
             default:
                 return null;
         }

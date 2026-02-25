@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
-    FolderOpen, Link2, CheckSquare, MessageCircle,
+    FolderOpen, Link2, CheckSquare, MessageCircle, Crown,
     LayoutDashboard, Settings, Cloud, CloudOff,
     ChevronLeft, ChevronRight, RefreshCw
 } from 'lucide-react';
@@ -15,6 +15,7 @@ const navItems = [
     { id: 'links', label: 'Links', icon: Link2 },
     { id: 'todos', label: 'To-Do List', icon: CheckSquare },
     { id: 'chats', label: 'Chats', icon: MessageCircle },
+    { id: 'subscription', label: 'Subscription', icon: Crown },
 ];
 
 interface SidebarProps {
