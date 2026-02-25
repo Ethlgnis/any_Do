@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import { Search, Plus, Menu, X, Cloud, CloudOff, LogOut, User } from 'lucide-react';
+import { Search, Plus, Menu, X, Cloud, CloudOff, LogOut, User, Crown } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import './Navbar.scss';
 
-export default function Navbar({ onSearch, onAddClick, onMenuClick, showMobileMenu, onSync, isSyncing }) {
+export default function Navbar({ onSearch, onAddClick, onMenuClick, showMobileMenu, onSync, isSyncing, onMenuChange }) {
     const { user, isAuthenticated, logout } = useAuth();
     const [searchQuery, setSearchQuery] = useState('');
     const [searchFocused, setSearchFocused] = useState(false);
@@ -75,49 +75,58 @@ export default function Navbar({ onSearch, onAddClick, onMenuClick, showMobileMe
                         <Plus size={18} />
                         <span className="add-btn-text">Add New</span>
                     </button>
+                </div>
 
-                    {/* User Profile / Auth */}
-                    <div className="user-menu-container" ref={userMenuRef}>
-                        {isAuthenticated && user ? (
-                            <>
-                                <button
-                                    className="user-avatar-btn"
-                                    onClick={() => setShowUserMenu(!showUserMenu)}
-                                >
-                                    {user.picture ? (
-                                        <img src={user.picture} alt={user.name} className="user-avatar" />
-                                    ) : (
-                                        <div className="user-avatar-placeholder">
-                                            <User size={18} />
-                                        </div>
-                                    )}
-                                </button>
+                {/* User Profile / Auth - Moved out of navbar-actions */}
+                <div className="user-menu-container" ref={userMenuRef}>
+                    <button 
+                        className="subscription-nav-btn" 
+                        onClick={() => onMenuChange?.('subscription')}
+                        title="Subscription Plans"
+                    >
+                        <Crown size={20} />
+                        <span className="premium-badge">PRO</span>
+                    </button>
 
-                                {showUserMenu && (
-                                    <div className="user-dropdown">
-                                        <div className="user-info">
-                                            {user.picture && (
-                                                <img src={user.picture} alt={user.name} className="dropdown-avatar" />
-                                            )}
-                                            <div className="user-details">
-                                                <span className="user-name">{user.name}</span>
-                                                <span className="user-email">{user.email}</span>
-                                            </div>
-                                        </div>
-                                        <div className="dropdown-divider"></div>
-                                        <button className="dropdown-item" onClick={logout}>
-                                            <LogOut size={16} />
-                                            Sign out
-                                        </button>
+                    {isAuthenticated && user ? (
+                        <>
+                            <button
+                                className="user-avatar-btn"
+                                onClick={() => setShowUserMenu(!showUserMenu)}
+                            >
+                                {user.picture ? (
+                                    <img src={user.picture} alt={user.name} className="user-avatar" />
+                                ) : (
+                                    <div className="user-avatar-placeholder">
+                                        <User size={18} />
                                     </div>
                                 )}
-                            </>
-                        ) : (
-                            <div className="offline-indicator" title="Offline mode">
-                                <CloudOff size={18} />
-                            </div>
-                        )}
-                    </div>
+                            </button>
+
+                            {showUserMenu && (
+                                <div className="user-dropdown">
+                                    <div className="user-info">
+                                        {user.picture && (
+                                            <img src={user.picture} alt={user.name} className="dropdown-avatar" />
+                                        )}
+                                        <div className="user-details">
+                                            <span className="user-name">{user.name}</span>
+                                            <span className="user-email">{user.email}</span>
+                                        </div>
+                                    </div>
+                                    <div className="dropdown-divider"></div>
+                                    <button className="dropdown-item" onClick={logout}>
+                                        <LogOut size={16} />
+                                        Sign out
+                                    </button>
+                                </div>
+                            )}
+                        </>
+                    ) : (
+                        <div className="offline-indicator" title="Offline mode">
+                            <CloudOff size={18} />
+                        </div>
+                    )}
                 </div>
             </div>
         </header>

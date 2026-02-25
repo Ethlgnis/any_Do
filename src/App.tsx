@@ -349,6 +349,7 @@ function AppContent() {
             <Navbar
                 onSearch={setSearchQuery}
                 onAddClick={handleAddClick}
+                onMenuChange={setActiveSection}
                 onMenuClick={() => setShowMobileMenu(!showMobileMenu)}
                 showMobileMenu={showMobileMenu}
                 onSync={handleSync}
