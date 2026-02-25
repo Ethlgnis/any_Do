@@ -3,6 +3,9 @@ import { useState, useEffect, useCallback } from 'react';
 // Auth
 import { AuthProvider, useAuth } from './context/AuthContext';
 
+// Theme
+import { ThemeProvider } from './context/ThemeContext';
+
 // Components
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
@@ -376,9 +379,11 @@ function AppContent() {
 
 function App() {
     return (
-        <AuthProvider>
-            <AppContent />
-        </AuthProvider>
+        <ThemeProvider>
+            <AuthProvider>
+                <AppContent />
+            </AuthProvider>
+        </ThemeProvider>
     );
 }
 

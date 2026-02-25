@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { X, Trash2, LogOut, User, Shield } from 'lucide-react';
+import { X, Trash2, LogOut, User, Shield, Moon, Sun } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { sendAccountDeletedNotification } from '../utils/emailService';
 import './SettingsModal.css';
 
 export default function SettingsModal({ isOpen, onClose }) {
     const { user, logout } = useAuth();
+    const { theme, toggleTheme } = useTheme();
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
 
@@ -64,6 +66,18 @@ export default function SettingsModal({ isOpen, onClose }) {
                                 <span className="account-name">{user?.name || 'User'}</span>
                                 <span className="account-email">{user?.email || ''}</span>
                             </div>
+                        </div>
+                    </div>
+
+                    {/* Appearance Section */}
+                    <div className="settings-section">
+                        <h3><Moon size={16} /> Appearance</h3>
+                        <div className="theme-toggle-container">
+                            <span className="theme-label">Theme</span>
+                            <button className="theme-toggle-btn" onClick={toggleTheme} aria-label="Toggle theme">
+                                {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+                                <span>{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
+                            </button>
                         </div>
                     </div>
 
