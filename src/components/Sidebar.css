@@ -16,6 +16,11 @@
     width: 72px;
 }
 
+[data-theme='light'] .sidebar {
+    background: #ffffff;
+    border-right: 1px solid rgba(15, 23, 42, 0.08);
+}
+
 .sidebar-overlay {
     position: fixed;
     inset: 0;
