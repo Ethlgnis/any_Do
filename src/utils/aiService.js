@@ -1,7 +1,7 @@
 // Google Gemini AI Service
 // Provides AI chat, summarization, suggestions, and smart search
 
-const GEMINI_API_KEY = 'AIzaSyAqdh0UECJ4wDf8-N99lz6uLuZdVNK_faY';
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
 
 /**
@@ -157,9 +157,10 @@ Return only the JSON array, no other text.`;
  */
 export async function aiQuickAction(action, data) {
     switch (action) {
-        case 'summarize_todos':
+        case 'summarize_todos': {
             const todoText = data.todos?.map(t => `${t.completed ? '✓' : '○'} ${t.title}`).join('\n');
             return aiSummarize(todoText, 'todos');
+        }
 
         case 'summarize_chat':
             return aiSummarize(data.content, 'chat');

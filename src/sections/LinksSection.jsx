@@ -1,16 +1,15 @@
 import { useState } from 'react';
 import {
-    Link2, Plus, ExternalLink, Copy, Trash2, Edit2,
+    Link2, Plus, ExternalLink, Copy, Trash2,
     X, Check, Calendar, Tag, Globe
 } from 'lucide-react';
-import { formatDate, getRelativeTime } from '../utils/storage';
+import { getRelativeTime } from '../utils/storage';
 import './LinksSection.css';
 
 const categories = ['General', 'Work', 'Personal', 'Learning', 'Social', 'News', 'Shopping'];
 
-export default function LinksSection({ links, onAdd, onUpdate, onDelete, searchQuery }) {
+export default function LinksSection({ links, onAdd, onDelete, searchQuery }) {
     const [showModal, setShowModal] = useState(false);
-    const [editingLink, setEditingLink] = useState(null);
     const [formData, setFormData] = useState({
         url: '',
         title: '',

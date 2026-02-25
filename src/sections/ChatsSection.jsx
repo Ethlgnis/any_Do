@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
 import {
     MessageCircle, Plus, Upload, Trash2, Eye, X,
-    Calendar, MessageSquare, Search
+    Calendar, MessageSquare
 } from 'lucide-react';
-import { formatDate, getRelativeTime } from '../utils/storage';
+import { getRelativeTime } from '../utils/storage';
 import './ChatsSection.css';
 
 export default function ChatsSection({ chats, onAdd, onDelete, searchQuery }) {

@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
     FolderOpen, Link2, CheckSquare, MessageCircle,
-    LayoutDashboard, Settings, HardDrive, Cloud, CloudOff,
+    LayoutDashboard, Settings, Cloud, CloudOff,
     ChevronLeft, ChevronRight, RefreshCw
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -17,13 +17,12 @@ const navItems = [
     { id: 'chats', label: 'Chats', icon: MessageCircle },
 ];
 
-export default function Sidebar({ activeSection, onSectionChange, storageUsed, onRefreshStorage }) {
+export default function Sidebar({ activeSection, onSectionChange }) {
     const { isAuthenticated, accessToken, login } = useAuth();
     const [collapsed, setCollapsed] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
     const [driveStorage, setDriveStorage] = useState(null);
     const [isLoadingStorage, setIsLoadingStorage] = useState(false);
-    const [driveError, setDriveError] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
 
     useEffect(() => {
@@ -41,20 +40,9 @@ export default function Sidebar({ activeSection, onSectionChange, storageUsed, o
         }
     }, [isMobile]);
 
-    // Fetch Drive storage quota when authenticated
-    useEffect(() => {
-        if (isAuthenticated && accessToken) {
-            fetchDriveStorage();
-            // Refresh storage every 30 seconds
-            const interval = setInterval(fetchDriveStorage, 30000);
-            return () => clearInterval(interval);
-        }
-    }, [isAuthenticated, accessToken]);
-
-    const fetchDriveStorage = async () => {
+    const fetchDriveStorage = useCallback(async () => {
         if (!accessToken) return;
         setIsLoadingStorage(true);
-        setDriveError(false);
         try {
             const quota = await getDriveQuota(accessToken);
             console.log('Drive quota response:', quota);
@@ -66,18 +54,25 @@ export default function Sidebar({ activeSection, onSectionChange, storageUsed, o
                 };
                 console.log('Setting driveStorage:', storageData);
                 setDriveStorage(storageData);
-                setDriveError(false);
             } else if (quota.error) {
                 console.error('Drive API error:', quota.error);
-                setDriveError(true);
             }
         } catch (error) {
             console.error('Error fetching Drive storage:', error);
-            setDriveError(true);
         } finally {
             setIsLoadingStorage(false);
         }
-    };
+    }, [accessToken]);
+
+    // Fetch Drive storage quota when authenticated
+    useEffect(() => {
+        if (isAuthenticated && accessToken) {
+            fetchDriveStorage();
+            // Refresh storage every 30 seconds
+            const interval = setInterval(fetchDriveStorage, 30000);
+            return () => clearInterval(interval);
+        }
+    }, [isAuthenticated, accessToken, fetchDriveStorage]);
 
     const formatBytes = (bytes) => {
         if (bytes === 0) return '0 B';

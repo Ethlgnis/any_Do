@@ -8,7 +8,6 @@ import {
     set,
     remove,
     onDisconnect,
-    serverTimestamp,
     query,
     orderByChild,
     limitToLast
@@ -16,14 +15,14 @@ import {
 
 // Firebase Configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyBWnNPGDQu0Z7-2sYEEKCBMPaLWsVH4Kzs",
-    authDomain: "anydo-e5066.firebaseapp.com",
-    databaseURL: "https://anydo-e5066-default-rtdb.firebaseio.com",
-    projectId: "anydo-e5066",
-    storageBucket: "anydo-e5066.firebasestorage.app",
-    messagingSenderId: "785858579429",
-    appId: "1:785858579429:web:d0aea002afb5adcc1fbd0c",
-    measurementId: "G-FS25QJWY3Q"
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase

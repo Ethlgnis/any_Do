@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
     CheckSquare, Plus, Circle, CheckCircle2, Trash2,
-    X, Check, Calendar, Flag, Clock, AlertCircle
+    X, Check, Calendar, Flag, Clock
 } from 'lucide-react';
 import { formatDate, getRelativeTime } from '../utils/storage';
 import './TodoSection.css';

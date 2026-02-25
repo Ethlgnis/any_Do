@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { MessageCircle, X, Send, Users, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import {
-    generateChatUserId,
     setUserOnline,
     setUserOffline,
     subscribeToOnlineUsers,
