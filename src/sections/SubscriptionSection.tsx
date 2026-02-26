@@ -1,5 +1,4 @@
 import { Crown, Check, Zap, Shield, Star } from 'lucide-react';
-import './SubscriptionSection.scss';
 
 export default function SubscriptionSection() {
     const plans = [

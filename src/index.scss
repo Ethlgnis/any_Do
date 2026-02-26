@@ -1012,3 +1012,10 @@ a:hover {
 .content-loaded {
     animation: fadeIn 0.4s ease forwards;
 }
+
+@import './sections/Dashboard.scss';
+@import './sections/FilesSection.scss';
+@import './sections/LinksSection.scss';
+@import './sections/TodoSection.scss';
+@import './sections/ChatsSection.scss';
+@import './sections/SubscriptionSection.scss';

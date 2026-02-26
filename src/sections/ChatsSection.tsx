@@ -4,7 +4,6 @@ import {
     Calendar, MessageSquare
 } from 'lucide-react';
 import { getRelativeTime } from '../utils/storage';
-import './ChatsSection.scss';
 
 interface ChatsSectionProps {
     chats: any[];

@@ -4,7 +4,6 @@ import {
     X, Check, Calendar, Flag, Clock
 } from 'lucide-react';
 import { formatDate, getRelativeTime } from '../utils/storage';
-import './TodoSection.scss';
 
 const priorities = [
     { value: 'low', label: 'Low', color: 'var(--success)' },

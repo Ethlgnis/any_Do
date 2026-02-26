@@ -4,7 +4,6 @@ import {
     X, Check, Calendar, Tag, Globe
 } from 'lucide-react';
 import { getRelativeTime } from '../utils/storage';
-import './LinksSection.scss';
 
 const categories = ['General', 'Work', 'Personal', 'Learning', 'Social', 'News', 'Shopping'];
 
