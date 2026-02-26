@@ -110,6 +110,8 @@
     border-radius: 18px;
     position: relative;
     max-width: 85%;
+    word-break: break-word; // Ensures long contiguous strings break
+    overflow-wrap: anywhere; // Fallback for some browsers
 }
 
 .message.sent .message-bubble {

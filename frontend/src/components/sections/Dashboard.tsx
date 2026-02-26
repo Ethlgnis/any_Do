@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import {
     FolderOpen, Link2, CheckSquare, MessageCircle,
-    TrendingUp, Clock, Calendar, ArrowRight, Send, Loader2
+    TrendingUp, Clock, Calendar, Plus, Image, Search, Globe, HelpCircle, Send, Loader2
 } from 'lucide-react';
 import { aiChat } from '../../utils/aiService';
 import { formatFileSize, getRelativeTime } from '../../utils/storage';
@@ -31,7 +31,15 @@ export default function Dashboard({
 
     useEffect(() => {
         scrollToBottom();
-    }, [messages, isLoading]);
+        
+        // Reset textarea height when input is cleared or loading finishes
+        if (!input) {
+            const textarea = document.querySelector('.prompt-input') as HTMLTextAreaElement;
+            if (textarea) {
+                textarea.style.height = 'auto';
+            }
+        }
+    }, [messages, isLoading, input]);
 
     const handleSendMessage = async (e?: React.FormEvent) => {
         e?.preventDefault();
@@ -105,15 +113,45 @@ export default function Dashboard({
 
                 <div className="prompt-container">
                     <form className="prompt-bar" onSubmit={handleSendMessage}>
-                        <div className="prompt-icon-plus" onClick={() => onNavigate('files')}>
-                            <ArrowRight size={20} />
+                        <div className="prompt-icon-plus-wrapper">
+                            <div className="prompt-icon-plus">
+                                <Plus size={24} />
+                            </div>
+                            <div className="actions-menu">
+                                <button className="action-item" onClick={() => onNavigate('files')} type="button">
+                                    <Image size={18} />
+                                    <span>Add file or photo</span>
+                                </button>
+                                <button className="action-item" type="button">
+                                    <Search size={18} />
+                                    <span>Deep research</span>
+                                </button>
+                                <button className="action-item" type="button">
+                                    <Globe size={18} />
+                                    <span>Web search</span>
+                                </button>
+                                <button className="action-item" type="button">
+                                    <HelpCircle size={18} />
+                                    <span>Quizze</span>
+                                </button>
+                            </div>
                         </div>
-                        <input 
-                            type="text" 
+                        <textarea 
                             className="prompt-input"
                             placeholder={messages.length > 0 ? "Ask a follow up..." : (user?.name ? `Anydo for ${user.name}!` : "Anydo for you!")}
                             value={input}
-                            onChange={(e) => setInput(e.target.value)}
+                            onChange={(e) => {
+                                setInput(e.target.value);
+                                e.target.style.height = 'auto';
+                                e.target.style.height = `${Math.min(e.target.scrollHeight, 200)}px`;
+                            }}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault();
+                                    handleSendMessage(e);
+                                }
+                            }}
+                            rows={1}
                             onFocus={(e) => { if (!messages.length) e.target.placeholder = ''; }}
                             onBlur={(e) => { if (!messages.length) e.target.placeholder = (user?.name ? `Anydo for ${user.name}!` : "Anydo for you!"); }}
                         />
