@@ -1,0 +1,174 @@
+@use '../../styles/variables' as *;
+
+/* Subscription Section Styles */
+.subscription-section {
+    .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--spacing-xl);
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .pricing-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-2xl);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        transition: all var(--transition-normal);
+        border-top: 4px solid var(--plan-color);
+
+        &:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
+            border-color: var(--plan-color);
+        }
+
+        &.popular {
+            background: linear-gradient(180deg, var(--bg-card) 0%, rgba(168, 85, 247, 0.05) 100%);
+            transform: scale(1.05);
+            z-index: 2;
+
+            &:hover {
+                transform: translateY(-8px) scale(1.05);
+            }
+        }
+
+        &.current {
+            border-style: dashed;
+        }
+    }
+
+    .popular-badge {
+        position: absolute;
+        top: -14px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--accent-gradient);
+        color: white;
+        padding: 4px 12px;
+        border-radius: var(--radius-full);
+        font-size: var(--font-size-xs);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .plan-header {
+        text-align: center;
+        margin-bottom: var(--spacing-xl);
+    }
+
+    .plan-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: var(--radius-lg);
+        background: var(--bg-tertiary);
+        color: var(--plan-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto var(--spacing-md);
+    }
+
+    .plan-name {
+        font-size: var(--font-size-2xl);
+        font-weight: 700;
+        margin-bottom: var(--spacing-xs);
+    }
+
+    .plan-description {
+        font-size: var(--font-size-sm);
+        color: var(--text-tertiary);
+    }
+
+    .plan-price-container {
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        margin-bottom: var(--spacing-xl);
+
+        .currency {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .price {
+            font-size: var(--font-size-4xl);
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .duration {
+            font-size: var(--font-size-sm);
+            color: var(--text-tertiary);
+        }
+    }
+
+    .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 var(--spacing-2xl);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        font-size: var(--font-size-sm);
+        color: var(--text-secondary);
+
+        .check-icon {
+            color: var(--success);
+            display: flex;
+        }
+    }
+
+    .plan-btn {
+        width: 100%;
+        padding: var(--spacing-md);
+        font-weight: 600;
+    }
+
+    .features-showcase {
+        margin-top: var(--spacing-2xl);
+        padding-top: var(--spacing-2xl);
+        border-top: 1px solid var(--border-color);
+    }
+
+    .showcase-header {
+        text-align: center;
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .showcase-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--spacing-xl);
+    }
+
+    .showcase-card {
+        text-align: center;
+        padding: var(--spacing-lg);
+
+        .showcase-icon {
+            margin-bottom: var(--spacing-md);
+            display: inline-flex;
+            padding: var(--spacing-md);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+        }
+
+        h3 { font-size: var(--font-size-lg); margin-bottom: var(--spacing-sm); }
+        p { font-size: var(--font-size-sm); color: var(--text-tertiary); line-height: 1.6; }
+    }
+}
