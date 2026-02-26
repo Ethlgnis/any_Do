@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import {
     FolderOpen, Link2, CheckSquare, MessageCircle, Crown,
     LayoutDashboard, Settings, Cloud, CloudOff,
-    ChevronLeft, ChevronRight, RefreshCw
+    ChevronLeft, ChevronRight, RefreshCw, Sparkles, Users
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { getDriveQuota } from '../../utils/driveStorage';
@@ -12,12 +12,11 @@ import SettingsModal from '../features/SettingsModal';
 import './Sidebar.scss';
 
 const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'dashboard', label: 'Chat with AnyDo AI', icon: Sparkles },
     { id: 'files', label: 'Files', icon: FolderOpen },
     { id: 'links', label: 'Links', icon: Link2 },
     { id: 'todos', label: 'To-Do List', icon: CheckSquare },
-    { id: 'chats', label: 'Chats', icon: MessageCircle },
-    { id: 'subscription', label: 'Subscription', icon: Crown },
+    { id: 'chats', label: 'Friend List', icon: Users },
 ];
 
 interface SidebarProps {
@@ -126,7 +125,7 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
                 <div className="sidebar-header">
                     <div className="sidebar-logo">
                         <div className="logo-icon">
-                            <span>A</span>
+                            <Sparkles size={20} />
                         </div>
                         {!collapsed && <span className="logo-text">AnyDo</span>}
                     </div>

@@ -1,5 +1,5 @@
 import { useAuth } from '../../context/AuthContext';
-import { Cloud } from 'lucide-react';
+import { Cloud, Sparkles } from 'lucide-react';
 import './LoginScreen.scss';
 
 export default function LoginScreen() {
@@ -21,7 +21,7 @@ export default function LoginScreen() {
             <div className="login-card">
                 <div className="login-header">
                     <div className="login-logo">
-                        <span>A</span>
+                        <Sparkles size={32} />
                     </div>
                     <h1>AnyDo</h1>
                     <p>Universal File Storage</p>

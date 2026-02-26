@@ -1,7 +1,9 @@
+import { useState, useRef, useEffect } from 'react';
 import {
     FolderOpen, Link2, CheckSquare, MessageCircle,
-    TrendingUp, Clock, Calendar, ArrowRight
+    TrendingUp, Clock, Calendar, ArrowRight, Send, Loader2
 } from 'lucide-react';
+import { aiChat } from '../../utils/aiService';
 import { formatFileSize, getRelativeTime } from '../../utils/storage';
 import './Dashboard.scss';
 
@@ -10,179 +12,128 @@ interface DashboardProps {
     links: any[];
     todos: any[];
     chats: any[];
+    user?: any;
     onNavigate: (sectionId: string) => void;
 }
 
 export default function Dashboard({
-    files, links, todos, chats,
+    files, links, todos, chats, user,
     onNavigate
 }: DashboardProps) {
-    const stats = [
-        {
-            id: 'files',
-            label: 'Files',
-            count: files.length,
-            icon: FolderOpen,
-            color: '#6366f1',
-            size: files.reduce((acc, f) => acc + f.size, 0)
-        },
-        {
-            id: 'links',
-            label: 'Links',
-            count: links.length,
-            icon: Link2,
-            color: '#a855f7'
-        },
-        {
-            id: 'todos',
-            label: 'Tasks',
-            count: todos.length,
-            icon: CheckSquare,
-            color: '#22c55e',
-            completed: todos.filter(t => t.completed).length
-        },
-        {
-            id: 'chats',
-            label: 'Chats',
-            count: chats.length,
-            icon: MessageCircle,
-            color: '#25D366'
-        },
-    ];
+    const [messages, setMessages] = useState<any[]>([]);
+    const [input, setInput] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    const recentItems = [
-        ...files.map(f => ({ ...f, type: 'file', section: 'files' })),
-        ...links.map(l => ({ ...l, type: 'link', section: 'links' })),
-        ...todos.map(t => ({ ...t, type: 'todo', section: 'todos' })),
-        ...chats.map(c => ({ ...c, type: 'chat', section: 'chats' })),
-    ]
-        .sort((a, b) => new Date(b.addedAt).getTime() - new Date(a.addedAt).getTime())
-        .slice(0, 8);
-
-    const getItemIcon = (type: string) => {
-        const icons: Record<string, any> = {
-            file: FolderOpen,
-            link: Link2,
-            todo: CheckSquare,
-            chat: MessageCircle
-        };
-        return icons[type] || FolderOpen;
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
-    const getItemTitle = (item: any) => {
-        if (item.type === 'file') return item.name;
-        if (item.type === 'link') return item.title || item.url;
-        if (item.type === 'todo') return item.title;
-        if (item.type === 'chat') return item.name;
-        return 'Unknown';
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages, isLoading]);
+
+    const handleSendMessage = async (e?: React.FormEvent) => {
+        e?.preventDefault();
+        if (!input.trim() || isLoading) return;
+
+        const userMessage = { 
+            id: Date.now().toString(),
+            role: 'user', 
+            content: input.trim(),
+            timestamp: new Date().toISOString()
+        };
+
+        setMessages(prev => [...prev, userMessage]);
+        setInput('');
+        setIsLoading(true);
+
+        try {
+            const context = { files, links, todos, chats };
+            const response = await aiChat(userMessage.content, context);
+            
+            const aiMessage = {
+                id: (Date.now() + 1).toString(),
+                role: 'assistant',
+                content: response,
+                timestamp: new Date().toISOString()
+            };
+
+            setMessages(prev => [...prev, aiMessage]);
+        } catch (error) {
+            console.error('Chat error:', error);
+            const errorMessage = {
+                id: (Date.now() + 1).toString(),
+                role: 'assistant',
+                content: "I'm sorry, I'm having trouble connecting right now. 🙁",
+                timestamp: new Date().toISOString(),
+                isError: true
+            };
+            setMessages(prev => [...prev, errorMessage]);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
-        <section className="dashboard">
-            <div className="section-header">
-                <div>
-                    <h1 className="section-title gradient-text">Welcome Back</h1>
-                    <p className="section-subtitle">Here&apos;s what&apos;s happening with your data</p>
-                </div>
-            </div>
-
-            {/* Stats Grid */}
-            <div className="stats-grid">
-                {stats.map((stat, index) => {
-                    const Icon = stat.icon;
-                    return (
-                        <div
-                            key={stat.id}
-                            className="stat-card stagger-item"
-                            style={{
-                                animationDelay: `${index * 0.1}s`,
-                                '--stat-color': stat.color
-                            } as React.CSSProperties}
-                            onClick={() => onNavigate(stat.id)}
-                        >
-                            <div className="stat-icon">
-                                <Icon size={24} />
-                            </div>
-                            <div className="stat-content">
-                                <span className="stat-count">{stat.count}</span>
-                                <span className="stat-label">{stat.label}</span>
-                                {stat.size !== undefined && (
-                                    <span className="stat-extra">{formatFileSize(stat.size)}</span>
-                                )}
-                                {stat.completed !== undefined && (
-                                    <span className="stat-extra">{stat.completed} completed</span>
-                                )}
-                            </div>
-                            <div className="stat-arrow">
-                                <ArrowRight size={16} />
-                            </div>
-                        </div>
-                    );
-                })}
-            </div>
-
-            {/* Recent Activity */}
-            <div className="recent-section">
-                <div className="recent-header">
-                    <h2>
-                        <Clock size={20} />
-                        Recent Activity
-                    </h2>
-                </div>
-
-                {recentItems.length > 0 ? (
-                    <div className="recent-list">
-                        {recentItems.map((item, index) => {
-                            const Icon = getItemIcon(item.type);
-                            return (
-                                <div
-                                    key={`${item.type}-${item.id}`}
-                                    className="recent-item stagger-item"
-                                    style={{ animationDelay: `${(index + 4) * 0.05}s` }}
-                                    onClick={() => onNavigate(item.section)}
-                                >
-                                    <div className="recent-icon" data-type={item.type}>
-                                        <Icon size={16} />
+        <section className={`dashboard ${messages.length > 0 ? 'has-chat' : ''}`}>
+            <div className="dashboard-hero">
+                {/* Chat History */}
+                {messages.length > 0 && (
+                    <div className="chat-history">
+                        {messages.map((msg) => (
+                            <div key={msg.id} className={`message-wrapper ${msg.role}`}>
+                                <div className={`message-bubble ${msg.isError ? 'error' : ''}`}>
+                                    <div className="message-content">{msg.content}</div>
+                                    <div className="message-meta">
+                                        {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                     </div>
-                                    <div className="recent-content">
-                                        <span className="recent-title">{getItemTitle(item)}</span>
-                                        <span className="recent-meta">
-                                            <Calendar size={10} />
-                                            {getRelativeTime(item.addedAt)}
-                                        </span>
-                                    </div>
-                                    <span className="recent-type">{item.type}</span>
                                 </div>
-                            );
-                        })}
-                    </div>
-                ) : (
-                    <div className="empty-state">
-                        <TrendingUp className="empty-state-icon" />
-                        <h3 className="empty-state-title">No activity yet</h3>
-                        <p className="empty-state-text">
-                            Start by uploading files, saving links, or creating tasks
-                        </p>
+                            </div>
+                        ))}
+                        {isLoading && (
+                            <div className="message-wrapper assistant">
+                                <div className="message-bubble loading">
+                                    <Loader2 className="spin" size={18} />
+                                    <span>Kiro is thinking...</span>
+                                </div>
+                            </div>
+                        )}
+                        <div ref={messagesEndRef} />
                     </div>
                 )}
-            </div>
 
-            {/* Quick Tips */}
-            <div className="tips-section">
-                <h3>Quick Tips</h3>
-                <div className="tips-grid">
-                    <div className="tip-card">
-                        <FolderOpen size={20} />
-                        <p>Drag & drop files anywhere to upload</p>
-                    </div>
-                    <div className="tip-card">
-                        <Link2 size={20} />
-                        <p>Paste any URL to quickly save links</p>
-                    </div>
-                    <div className="tip-card">
-                        <MessageCircle size={20} />
-                        <p>Export WhatsApp chats as .txt to import</p>
-                    </div>
+                <div className="prompt-container">
+                    <form className="prompt-bar" onSubmit={handleSendMessage}>
+                        <div className="prompt-icon-plus" onClick={() => onNavigate('files')}>
+                            <ArrowRight size={20} />
+                        </div>
+                        <input 
+                            type="text" 
+                            className="prompt-input"
+                            placeholder={messages.length > 0 ? "Ask a follow up..." : (user?.name ? `Anydo for ${user.name}!` : "Anydo for you!")}
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            onFocus={(e) => { if (!messages.length) e.target.placeholder = ''; }}
+                            onBlur={(e) => { if (!messages.length) e.target.placeholder = (user?.name ? `Anydo for ${user.name}!` : "Anydo for you!"); }}
+                        />
+                        <div className="prompt-actions">
+                            {input.trim() ? (
+                                <button type="submit" className="prompt-btn send" title="Send message">
+                                    <Send size={20} />
+                                </button>
+                            ) : (
+                                <>
+                                    <button type="button" className="prompt-btn" title="Add files" onClick={() => onNavigate('files')}>
+                                        <FolderOpen size={20} />
+                                    </button>
+                                    <button type="button" className="prompt-btn" title="Voice input">
+                                        <MessageCircle size={20} />
+                                    </button>
+                                </>
+                            )}
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>

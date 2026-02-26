@@ -7,8 +7,6 @@ import { useAppContext } from '../../context/AppContext';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import LoginScreen from '../features/LoginScreen';
-import LiveChat from '../features/LiveChat';
-import AIAssistant from '../features/AIAssistant';
 
 export default function MainLayoutClient({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -69,15 +67,6 @@ export default function MainLayoutClient({ children }: { children: React.ReactNo
                 {children}
             </main>
 
-            <LiveChat />
-
-            <AIAssistant
-                files={files}
-                links={links}
-                todos={todos}
-                chats={chats}
-                onAddTodo={handleTodoAdd}
-            />
         </div>
     );
 }

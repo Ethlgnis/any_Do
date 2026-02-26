@@ -114,78 +114,81 @@ export default function ChatsSection({ chats, onAdd, onDelete, searchQuery }: Ch
 
     return (
         <section className="chats-section">
-            <div className="section-header">
-                <div>
-                    <h1 className="section-title">Chats</h1>
-                    <p className="section-subtitle">{filteredChats.length} conversations</p>
-                </div>
-                <button className="btn btn-primary" onClick={() => setShowModal(true)}>
-                    <Plus size={18} />
-                    Import Chat
-                </button>
-            </div>
-
-            {/* Chats Grid */}
-            {filteredChats.length > 0 ? (
-                <div className="chats-grid">
-                    {filteredChats.map((chat, index) => (
-                        <div
-                            key={chat.id}
-                            className="chat-card stagger-item"
-                            style={{ animationDelay: `${index * 0.05}s` }}
-                        >
-                            <div className="chat-card-header">
-                                <div className="chat-icon">
-                                    <MessageSquare size={24} />
-                                </div>
-                                <div className="chat-info">
-                                    <h3 className="chat-name">{chat.name}</h3>
-                                    <span className="chat-count">{chat.messageCount} messages</span>
-                                </div>
-                            </div>
-
-                            <p className="chat-preview">
-                                {chat.content.substring(0, 150)}...
-                            </p>
-
-                            <div className="chat-card-footer">
-                                <span className="chat-date">
-                                    <Calendar size={12} />
-                                    {getRelativeTime(chat.addedAt)}
-                                </span>
-                                <div className="chat-actions">
-                                    <button
-                                        className="action-btn"
-                                        title="View Chat"
-                                        onClick={() => setViewingChat(chat)}
-                                    >
-                                        <Eye size={14} />
-                                    </button>
-                                    <button
-                                        className="action-btn delete"
-                                        title="Delete"
-                                        onClick={() => onDelete(chat.id)}
-                                    >
-                                        <Trash2 size={14} />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                <div className="empty-state">
-                    <MessageCircle className="empty-state-icon" />
-                    <h3 className="empty-state-title">No chats imported</h3>
-                    <p className="empty-state-text">
-                        Import WhatsApp chat exports to view and search through old conversations
-                    </p>
-                    <button className="btn btn-primary" onClick={() => setShowModal(true)}>
-                        <Upload size={18} />
-                        Import Your First Chat
+            <div className="section-hero">
+                <div className="hero-content">
+                    <h1 className="hero-title gradient-text">Your Conversations</h1>
+                    <p className="hero-subtitle">Search, view, and manage your imported chat history</p>
+                    
+                    <button className="btn btn-big-import" onClick={() => setShowModal(true)}>
+                        <Upload size={20} />
+                        <span>Import New Chat</span>
                     </button>
                 </div>
-            )}
+            </div>
+
+            <div className="section-content">
+                {filteredChats.length > 0 ? (
+                    <div className="chats-grid">
+                        {filteredChats.map((chat, index) => (
+                            <div
+                                key={chat.id}
+                                className="chat-card-big stagger-item"
+                                style={{ animationDelay: `${index * 0.05}s` }}
+                                onClick={() => setViewingChat(chat)}
+                            >
+                                <div className="chat-card-glow"></div>
+                                <div className="chat-card-content">
+                                    <div className="chat-card-header">
+                                        <div className="chat-avatar">
+                                            {chat.name.charAt(0).toUpperCase()}
+                                        </div>
+                                        <div className="chat-meta">
+                                            <h3 className="chat-name">{chat.name}</h3>
+                                            <span className="chat-label">{chat.messageCount} messages</span>
+                                        </div>
+                                        <button
+                                            className="delete-btn"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                onDelete(chat.id);
+                                            }}
+                                        >
+                                            <Trash2 size={16} />
+                                        </button>
+                                    </div>
+
+                                    <div className="chat-body-preview">
+                                        <p>{chat.content.substring(0, 180)}...</p>
+                                    </div>
+
+                                    <div className="chat-card-footer">
+                                        <span className="date-tag">
+                                            <Calendar size={12} />
+                                            {getRelativeTime(chat.addedAt)}
+                                        </span>
+                                        <div className="read-more">
+                                            <span>Read full chat</span>
+                                            <Eye size={14} />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="empty-state-big">
+                        <div className="empty-icon-wrapper">
+                            <MessageCircle size={48} />
+                        </div>
+                        <h3>No conversations yet</h3>
+                        <p>Import your WhatsApp export (.txt) to search and relive your memories.</p>
+                        <button className="btn btn-primary btn-big" onClick={() => setShowModal(true)}>
+                            <Plus size={20} />
+                            Get Started
+                        </button>
+                    </div>
+                )}
+            </div>
 
             {/* Import Modal */}
             {showModal && (

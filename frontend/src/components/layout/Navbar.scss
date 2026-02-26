@@ -189,13 +189,21 @@
                 color: var(--text-primary);
             }
 
-            .user-email {
-                font-size: 11px;
-                color: var(--text-tertiary);
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
+                .user-email {
+                    font-size: 11px;
+                    color: var(--text-tertiary);
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .user-id {
+                    font-size: 10px;
+                    color: var(--text-tertiary);
+                    opacity: 0.7;
+                    font-family: monospace;
+                    margin-top: 2px;
+                }
         }
     }
 

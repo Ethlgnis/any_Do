@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { X, Trash2, LogOut, User, Shield, Moon, Sun } from 'lucide-react';
+import { X, Trash2, LogOut, User, Shield, Moon, Sun, Crown, Activity, MessageSquare, HelpCircle, Key, MonitorOff } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { sendAccountDeletedNotification } from '../../utils/emailService';
@@ -88,10 +88,48 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                         </div>
                     </div>
 
-                    {/* Actions Section */}
+                    {/* Subscription Section */}
                     <div className="settings-section">
-                        <h3><Shield size={16} /> Actions</h3>
+                        <h3><Crown size={16} /> Subscription</h3>
+                        <button className="settings-action-btn subscription-btn">
+                            <Crown size={18} />
+                            <span>Manage Subscription</span>
+                        </button>
+                    </div>
 
+                    {/* Usage Section */}
+                    <div className="settings-section">
+                        <h3><Activity size={16} /> Usage</h3>
+                        <button className="settings-action-btn">
+                            <Activity size={18} />
+                            <span>Activity Log</span>
+                        </button>
+                    </div>
+
+                    {/* Support Section */}
+                    <div className="settings-section">
+                        <h3><HelpCircle size={16} /> Support</h3>
+                        <button className="settings-action-btn">
+                            <MessageSquare size={18} />
+                            <span>Send Feedback</span>
+                        </button>
+                        <button className="settings-action-btn">
+                            <HelpCircle size={18} />
+                            <span>Help Center</span>
+                        </button>
+                    </div>
+
+                    {/* Security Section */}
+                    <div className="settings-section">
+                        <h3><Shield size={16} /> Security</h3>
+                        <button className="settings-action-btn">
+                            <Key size={18} />
+                            <span>Passkey</span>
+                        </button>
+                        <button className="settings-action-btn">
+                            <MonitorOff size={18} />
+                            <span>Log out from all devices</span>
+                        </button>
                         <button className="settings-action-btn" onClick={handleLogout}>
                             <LogOut size={18} />
                             <span>Sign Out</span>

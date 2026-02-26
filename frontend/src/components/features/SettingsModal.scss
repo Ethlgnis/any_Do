@@ -77,10 +77,26 @@
 
 .settings-section {
     margin-bottom: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
 }
 
 .settings-section:last-child {
     margin-bottom: 0;
+}
+
+.subscription-btn {
+    border-color: rgba(99, 102, 241, 0.4) !important;
+    
+    &:hover {
+        border-color: var(--accent-primary) !important;
+        background: rgba(99, 102, 241, 0.1) !important;
+    }
+
+    svg {
+        color: var(--accent-primary);
+    }
 }
 
 .settings-section h3 {

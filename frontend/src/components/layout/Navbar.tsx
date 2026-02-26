@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Search, Plus, Menu, X, Cloud, CloudOff, LogOut, User, Crown } from 'lucide-react';
+import { Search, Menu, X, Cloud, CloudOff, LogOut, User, Crown } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import './Navbar.scss';
 
@@ -70,11 +70,6 @@ export default function Navbar({ onSearch, onAddClick, onMenuClick, showMobileMe
                             <span className="sync-text">{isSyncing ? 'Syncing...' : 'Sync'}</span>
                         </button>
                     )}
-
-                    <button className="btn btn-primary add-btn" onClick={onAddClick}>
-                        <Plus size={18} />
-                        <span className="add-btn-text">Add New</span>
-                    </button>
                 </div>
 
                 {/* User Profile / Auth - Moved out of navbar-actions */}
@@ -112,6 +107,7 @@ export default function Navbar({ onSearch, onAddClick, onMenuClick, showMobileMe
                                         <div className="user-details">
                                             <span className="user-name">{user.name}</span>
                                             <span className="user-email">{user.email}</span>
+                                            <span className="user-id">ID: {user.id}</span>
                                         </div>
                                     </div>
                                     <div className="dropdown-divider"></div>
