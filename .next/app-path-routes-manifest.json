@@ -1,0 +1,10 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/chats/page": "/chats",
+  "/files/page": "/files",
+  "/links/page": "/links",
+  "/page": "/",
+  "/subscription/page": "/subscription",
+  "/todos/page": "/todos"
+}

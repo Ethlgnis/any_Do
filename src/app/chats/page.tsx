@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppContext } from '../../context/AppContext';
-import ChatsSection from '../../sections/ChatsSection';
+import ChatsSection from '../../components/sections/ChatsSection';
 
 export default function ChatsPage() {
     const { chats, handleChatAdd, handleChatDelete, searchQuery } = useAppContext();

@@ -2,7 +2,7 @@
 
 import { useAppContext } from '../context/AppContext';
 import { useRouter } from 'next/navigation';
-import Dashboard from '../sections/Dashboard';
+import Dashboard from '../components/sections/Dashboard';
 
 export default function DashboardPage() {
     const { files, links, todos, chats } = useAppContext();

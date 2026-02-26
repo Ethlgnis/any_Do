@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppContext } from '../../context/AppContext';
-import FilesSection from '../../sections/FilesSection';
+import FilesSection from '../../components/sections/FilesSection';
 
 export default function FilesPage() {
     const { files, handleFileUpload, handleFileDelete, handleFileView, searchQuery } = useAppContext();
