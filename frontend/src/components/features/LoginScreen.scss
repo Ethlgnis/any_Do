@@ -10,11 +10,41 @@
     padding: var(--spacing-lg);
     position: relative;
     overflow: hidden;
+    background: linear-gradient(135deg, #f9fafb, #e5e7eb);
+    
+    // Professional Line/Grid Design
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: 
+            linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+        background-size: 80px 80px; // Larger Primary Grid
+        opacity: 0.6;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: 
+            linear-gradient(rgba(99, 102, 241, 0.03) 2px, transparent 2px),
+            linear-gradient(90deg, rgba(99, 102, 241, 0.03) 2px, transparent 2px);
+        background-size: 240px 240px; // Accent Line Design
+        opacity: 0.8;
+        z-index: 1;
+        pointer-events: none;
+    }
 }
 
 .login-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(25px) saturate(200%);
+    -webkit-backdrop-filter: blur(25px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     border-radius: var(--radius-xl);
     padding: var(--spacing-2xl);
     width: 100%;
@@ -22,7 +52,14 @@
     text-align: center;
     position: relative;
     z-index: 10;
-    animation: scaleIn 0.4s ease;
+    animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    // Professional Layered Shadow
+    box-shadow: 
+        0 10px 15px -3px rgba(0, 0, 0, 0.04),
+        0 4px 6px -2px rgba(0, 0, 0, 0.02),
+        0 40px 60px -15px rgba(0, 0, 0, 0.06),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.4);
 }
 
 /* Logo */
@@ -93,24 +130,69 @@
     width: 100%;
     padding: var(--spacing-md) var(--spacing-lg);
     background: white;
-    border: none;
+    border: 2px solid #60676f;
     border-radius: var(--radius-md);
     font-size: var(--font-size-md);
-    font-weight: 500;
+    font-weight: 600;
     font-family: inherit;
     color: #333;
     cursor: pointer;
     transition: all var(--transition-normal);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 4px 4px 0px #60676f;
+    position: relative;
+    overflow: hidden;
+
+    // Google Letter Colors
+    .g-blue { color: #4285f4; }
+    .g-red { color: #ea4335; }
+    .g-yellow { color: #fbbc05; }
+    .g-green { color: #34a853; }
+
+    .google-brand {
+        display: flex;
+        gap: 1px;
+        margin-left: 8px; // Added enough space here
+    }
+
+    & > span {
+        display: flex;
+        align-items: center;
+    }
+
+    // Shine effect container
+    &::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            45deg,
+            transparent,
+            rgba(255, 255, 255, 0.3),
+            transparent
+        );
+        transform: rotate(45deg);
+        transition: 0.7s;
+        opacity: 0;
+        pointer-events: none;
+    }
 }
 
 .google-login-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #60676f;
+
+    &::after {
+        left: 100%;
+        opacity: 1;
+    }
 }
 
 .google-login-btn:active {
-    transform: translateY(0);
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #60676f;
 }
 
 .login-note {
@@ -158,41 +240,87 @@
     inset: 0;
     pointer-events: none;
     z-index: 0;
+    overflow: hidden;
 }
 
-.bg-orb {
+.bg-box {
     position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.5;
-    animation: float 6s ease-in-out infinite;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius-lg);
+    box-shadow: 
+        20px 20px 60px rgba(0, 0, 0, 0.03),
+        -20px -20px 60px rgba(255, 255, 255, 0.8);
+    transition: all 0.5s ease;
+    animation: float-box 15s ease-in-out infinite;
 }
 
-.orb-1 {
-    width: 400px;
-    height: 400px;
-    background: var(--accent-primary);
-    top: -100px;
-    left: -100px;
+.box-1 {
+    width: 320px;
+    height: 320px;
+    top: -80px;
+    left: 12%;
+    transform: rotate(15deg);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.15));
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    box-shadow: 
+        30px 30px 70px rgba(99, 102, 241, 0.1),
+        -10px -10px 40px rgba(255, 255, 255, 0.8);
 }
 
-.orb-2 {
-    width: 300px;
-    height: 300px;
-    background: var(--accent-secondary);
-    bottom: -50px;
-    right: -50px;
-    animation-delay: -2s;
+.box-2 {
+    width: 240px;
+    height: 240px;
+    bottom: 8%;
+    right: 7%;
+    transform: rotate(-10deg);
+    animation-delay: -3s;
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(168, 85, 247, 0.1));
+    border: 1px solid rgba(236, 72, 153, 0.2);
+    box-shadow: 
+        20px 20px 50px rgba(236, 72, 153, 0.08),
+        -10px -10px 30px rgba(255, 255, 255, 0.6);
 }
 
-.orb-3 {
-    width: 200px;
-    height: 200px;
-    background: #ec4899;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation-delay: -4s;
+.box-3 {
+    width: 180px;
+    height: 180px;
+    top: 35%;
+    right: 18%;
+    transform: rotate(5deg);
+    animation-delay: -7s;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.box-4 {
+    width: 120px;
+    height: 120px;
+    bottom: 25%;
+    left: 18%;
+    transform: rotate(-20deg);
+    animation-delay: -10s;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(255, 255, 255, 0.4));
+    border: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+@keyframes float-box {
+    0%, 100% { 
+        transform: translateY(0) rotate(15deg) scale(1); 
+    }
+    50% { 
+        transform: translateY(-40px) rotate(18deg) scale(1.02); 
+    }
+}
+
+// Special overrides for specific box animations to avoid identical movement
+.box-2 {
+    @keyframes float-box-alt {
+        0%, 100% { transform: translateY(0) rotate(-10deg); }
+        50% { transform: translateY(30px) rotate(-12deg); }
+    }
+    animation-name: float-box-alt;
 }
 
 @keyframes float {
