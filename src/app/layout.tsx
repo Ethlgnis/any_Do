@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { ThemeProvider } from '../context/ThemeContext';
 import { AuthProvider } from '../context/AuthContext';
 import { AppProvider } from '../context/AppContext';
-import MainLayoutClient from '../components/MainLayoutClient';
+import MainLayoutClient from '../components/layout/MainLayoutClient';
 
 export const metadata: Metadata = {
     title: 'AnyDo',

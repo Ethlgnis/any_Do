@@ -1,0 +1,10 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/chats/page": "app/chats/page.js",
+  "/files/page": "app/files/page.js",
+  "/links/page": "app/links/page.js",
+  "/page": "app/page.js",
+  "/subscription/page": "app/subscription/page.js",
+  "/todos/page": "app/todos/page.js"
+}

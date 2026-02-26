@@ -1,0 +1,212 @@
+/* [project]/src/components/features/LoginScreen.scss.css [app-client] (css) */
+.login-screen {
+  min-height: 100vh;
+  padding: var(--spacing-lg);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-2xl);
+  text-align: center;
+  z-index: 10;
+  width: 100%;
+  max-width: 420px;
+  animation: .4s scaleIn;
+  position: relative;
+}
+
+.login-header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.login-logo {
+  background: var(--accent-gradient);
+  border-radius: var(--radius-xl);
+  width: 72px;
+  height: 72px;
+  margin: 0 auto var(--spacing-lg);
+  color: #fff;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: 800;
+  display: flex;
+  box-shadow: 0 8px 32px #6366f14d;
+}
+
+.login-header h1 {
+  font-size: var(--font-size-3xl);
+  margin-bottom: var(--spacing-xs);
+  background: var(--accent-gradient);
+  -webkit-text-fill-color: #0000;
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-weight: 800;
+}
+
+.login-header p {
+  color: var(--text-tertiary);
+  font-size: var(--font-size-sm);
+  margin: 0;
+}
+
+.login-features {
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-lg);
+  background: var(--bg-glass);
+  border-radius: var(--radius-lg);
+  flex-direction: column;
+  display: flex;
+}
+
+.feature {
+  align-items: center;
+  gap: var(--spacing-md);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  display: flex;
+}
+
+.feature svg {
+  color: var(--accent-primary);
+}
+
+.google-login-btn {
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-md);
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+  color: #333;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  background: #fff;
+  border: none;
+  font-family: inherit;
+  font-weight: 500;
+  display: flex;
+  box-shadow: 0 2px 8px #0000001a;
+}
+
+.google-login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px #00000026;
+}
+
+.google-login-btn:active {
+  transform: translateY(0);
+}
+
+.login-note {
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.skip-login-btn {
+  color: var(--text-tertiary);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+  background: none;
+  border: none;
+  font-family: inherit;
+  text-decoration: underline;
+}
+
+.skip-login-btn:hover {
+  color: var(--text-secondary);
+}
+
+.login-loader {
+  align-items: center;
+  gap: var(--spacing-lg);
+  flex-direction: column;
+  display: flex;
+}
+
+.loader-spinner {
+  border: 3px solid var(--border-color);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  animation: 1s linear infinite spin;
+}
+
+.login-bg-effects {
+  pointer-events: none;
+  z-index: 0;
+  position: fixed;
+  inset: 0;
+}
+
+.bg-orb {
+  filter: blur(80px);
+  opacity: .5;
+  border-radius: 50%;
+  animation: 6s ease-in-out infinite float;
+  position: absolute;
+}
+
+.orb-1 {
+  background: var(--accent-primary);
+  width: 400px;
+  height: 400px;
+  top: -100px;
+  left: -100px;
+}
+
+.orb-2 {
+  background: var(--accent-secondary);
+  width: 300px;
+  height: 300px;
+  animation-delay: -2s;
+  bottom: -50px;
+  right: -50px;
+}
+
+.orb-3 {
+  background: #ec4899;
+  width: 200px;
+  height: 200px;
+  animation-delay: -4s;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0)scale(1);
+  }
+
+  50% {
+    transform: translateY(-30px)scale(1.05);
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: var(--spacing-xl);
+  }
+
+  .login-logo {
+    width: 56px;
+    height: 56px;
+    font-size: 1.5rem;
+  }
+}
+
+/*# sourceMappingURL=src_components_features_LoginScreen_scss_css_bad6b30c._.single.css.map*/

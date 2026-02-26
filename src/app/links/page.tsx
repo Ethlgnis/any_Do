@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppContext } from '../../context/AppContext';
-import LinksSection from '../../sections/LinksSection';
+import LinksSection from '../../components/sections/LinksSection';
 
 export default function LinksPage() {
     const { links, handleLinkAdd, handleLinkDelete, searchQuery } = useAppContext();

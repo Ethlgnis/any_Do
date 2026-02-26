@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppContext } from '../../context/AppContext';
-import TodoSection from '../../sections/TodoSection';
+import TodoSection from '../../components/sections/TodoSection';
 
 export default function TodosPage() {
     const { todos, handleTodoAdd, handleTodoUpdate, handleTodoDelete, searchQuery } = useAppContext();
