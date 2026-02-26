@@ -1,0 +1,619 @@
+[00:00:01.797] Server  LOG     ✓ Ready in 1128ms
+[00:00:04.811] Server  LOG     ○ Compiling / ...
+[00:00:04.964] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: 1 repetitive deprecation warnings omitted.
+Run in verbose mode to see all warnings.
+
+
+[00:00:04.964] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1015, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1015:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1015 | @import './sections/Dashboard.scss';
+
+
+src\index.scss 1016:9  root stylesheet
+
+
+
+[00:00:04.965] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1016, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1016:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1016 | @import './sections/FilesSection.scss';
+
+
+src\index.scss 1017:9  root stylesheet
+
+
+
+[00:00:04.965] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1017, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1017:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1017 | @import './sections/LinksSection.scss';
+
+
+src\index.scss 1018:9  root stylesheet
+
+
+
+[00:00:04.965] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1018, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1018:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1018 | @import './sections/TodoSection.scss';
+
+
+src\index.scss 1019:9  root stylesheet
+
+
+
+[00:00:04.965] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1019, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1019:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1019 | @import './sections/ChatsSection.scss';
+
+
+src\index.scss 1020:9  root stylesheet
+
+
+
+[00:00:05.306] Server  WARN    Firebase activity stopped as per user request or invalid config.
+[00:00:05.710] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: 1 repetitive deprecation warnings omitted.
+Run in verbose mode to see all warnings.
+
+
+[00:00:05.711] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1015, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1015:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1015 | @import './sections/Dashboard.scss';
+
+
+src\index.scss 1016:9  root stylesheet
+
+
+
+[00:00:05.711] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1016, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1016:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1016 | @import './sections/FilesSection.scss';
+
+
+src\index.scss 1017:9  root stylesheet
+
+
+
+[00:00:05.711] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1017, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1017:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1017 | @import './sections/LinksSection.scss';
+
+
+src\index.scss 1018:9  root stylesheet
+
+
+
+[00:00:05.711] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1018, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1018:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1018 | @import './sections/TodoSection.scss';
+
+
+src\index.scss 1019:9  root stylesheet
+
+
+
+[00:00:05.711] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1019, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1019:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1019 | @import './sections/ChatsSection.scss';
+
+
+src\index.scss 1020:9  root stylesheet
+
+
+
+[00:00:05.765] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:05.941] Browser WARN    Firebase activity stopped as per user request or invalid config.
+[00:00:50.738] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: 1 repetitive deprecation warnings omitted.
+Run in verbose mode to see all warnings.
+
+
+[00:00:50.740] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1015, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1015:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1015 | @import './sections/Dashboard.scss';
+
+
+src\index.scss 1016:9  root stylesheet
+
+
+
+[00:00:50.741] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1016, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1016:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1016 | @import './sections/FilesSection.scss';
+
+
+src\index.scss 1017:9  root stylesheet
+
+
+
+[00:00:50.741] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1017, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1017:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1017 | @import './sections/LinksSection.scss';
+
+
+src\index.scss 1018:9  root stylesheet
+
+
+
+[00:00:50.741] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1018, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1018:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1018 | @import './sections/TodoSection.scss';
+
+
+src\index.scss 1019:9  root stylesheet
+
+
+
+[00:00:50.742] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1019, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1019:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1019 | @import './sections/ChatsSection.scss';
+
+
+src\index.scss 1020:9  root stylesheet
+
+
+
+[00:00:51.136] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: 1 repetitive deprecation warnings omitted.
+Run in verbose mode to see all warnings.
+
+
+[00:00:51.137] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1015, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1015:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1015 | @import './sections/Dashboard.scss';
+
+
+src\index.scss 1016:9  root stylesheet
+
+
+
+[00:00:51.137] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1016, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1016:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1016 | @import './sections/FilesSection.scss';
+
+
+src\index.scss 1017:9  root stylesheet
+
+
+
+[00:00:51.137] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1017, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1017:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1017 | @import './sections/LinksSection.scss';
+
+
+src\index.scss 1018:9  root stylesheet
+
+
+
+[00:00:51.137] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1018, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1018:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1018 | @import './sections/TodoSection.scss';
+
+
+src\index.scss 1019:9  root stylesheet
+
+
+
+[00:00:51.137] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1019, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1019:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1019 | @import './sections/ChatsSection.scss';
+
+
+src\index.scss 1020:9  root stylesheet
+
+
+
+[00:00:51.209] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:51.438] Browser WARN    Firebase activity stopped as per user request or invalid config.
+[00:01:03.690] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: 1 repetitive deprecation warnings omitted.
+Run in verbose mode to see all warnings.
+
+
+[00:01:03.690] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1015, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1015:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1015 | @import './sections/Dashboard.scss';
+
+
+src\index.scss 1016:9  root stylesheet
+
+
+
+[00:01:03.691] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1016, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1016:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1016 | @import './sections/FilesSection.scss';
+
+
+src\index.scss 1017:9  root stylesheet
+
+
+
+[00:01:03.691] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1017, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1017:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1017 | @import './sections/LinksSection.scss';
+
+
+src\index.scss 1018:9  root stylesheet
+
+
+
+[00:01:03.691] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1018, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1018:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1018 | @import './sections/TodoSection.scss';
+
+
+src\index.scss 1019:9  root stylesheet
+
+
+
+[00:01:03.691] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1019, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1019:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1019 | @import './sections/ChatsSection.scss';
+
+
+src\index.scss 1020:9  root stylesheet
+
+
+
+[00:01:03.987] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: 1 repetitive deprecation warnings omitted.
+Run in verbose mode to see all warnings.
+
+
+[00:01:03.988] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1015, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1015:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1015 | @import './sections/Dashboard.scss';
+
+
+src\index.scss 1016:9  root stylesheet
+
+
+
+[00:01:03.988] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1016, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1016:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1016 | @import './sections/FilesSection.scss';
+
+
+src\index.scss 1017:9  root stylesheet
+
+
+
+[00:01:03.988] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1017, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1017:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1017 | @import './sections/LinksSection.scss';
+
+
+src\index.scss 1018:9  root stylesheet
+
+
+
+[00:01:03.988] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1018, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1018:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1018 | @import './sections/TodoSection.scss';
+
+
+src\index.scss 1019:9  root stylesheet
+
+
+
+[00:01:03.988] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1019, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1019:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1019 | @import './sections/ChatsSection.scss';
+
+
+src\index.scss 1020:9  root stylesheet
+
+
+
+[00:01:04.065] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:04.253] Browser WARN    Firebase activity stopped as per user request or invalid config.
+[00:01:04.325] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: 1 repetitive deprecation warnings omitted.
+Run in verbose mode to see all warnings.
+
+
+[00:01:04.326] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1015, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1015:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1015 | @import './sections/Dashboard.scss';
+
+
+src\index.scss 1016:9  root stylesheet
+
+
+
+[00:01:04.326] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1016, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1016:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1016 | @import './sections/FilesSection.scss';
+
+
+src\index.scss 1017:9  root stylesheet
+
+
+
+[00:01:04.326] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1017, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1017:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1017 | @import './sections/LinksSection.scss';
+
+
+src\index.scss 1018:9  root stylesheet
+
+
+
+[00:01:04.326] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1018, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1018:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1018 | @import './sections/TodoSection.scss';
+
+
+src\index.scss 1019:9  root stylesheet
+
+
+
+[00:01:04.327] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1019, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1019:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1019 | @import './sections/ChatsSection.scss';
+
+
+src\index.scss 1020:9  root stylesheet
+
+
+
+[00:01:04.655] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: 1 repetitive deprecation warnings omitted.
+Run in verbose mode to see all warnings.
+
+
+[00:01:04.655] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1015, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1015:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1015 | @import './sections/Dashboard.scss';
+
+
+src\index.scss 1016:9  root stylesheet
+
+
+
+[00:01:04.655] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1016, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1016:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1016 | @import './sections/FilesSection.scss';
+
+
+src\index.scss 1017:9  root stylesheet
+
+
+
+[00:01:04.655] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1017, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1017:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1017 | @import './sections/LinksSection.scss';
+
+
+src\index.scss 1018:9  root stylesheet
+
+
+
+[00:01:04.655] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1018, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1018:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1018 | @import './sections/TodoSection.scss';
+
+
+src\index.scss 1019:9  root stylesheet
+
+
+
+[00:01:04.656] Server  WARN    ⚠ ./src/index.scss
+Issue while running loader
+SassWarning: Deprecation Warning on line 1019, column 8 of file:///C:/Users/soumi/any_Do-1/src/index.scss:1019:8:
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+1019 | @import './sections/ChatsSection.scss';
+
+
+src\index.scss 1020:9  root stylesheet
+
+
+
+[00:01:04.721] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:04.910] Browser WARN    Firebase activity stopped as per user request or invalid config.

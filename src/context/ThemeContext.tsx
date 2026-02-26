@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
@@ -20,8 +21,11 @@ export function useTheme() {
 export function ThemeProvider({ children }: { children: ReactNode }) {
     // Default to 'light' as requested by the user
     const [theme, setTheme] = useState(() => {
-        const savedTheme = localStorage.getItem('anydo_theme');
-        return savedTheme ? savedTheme : 'light';
+        if (typeof window !== 'undefined') {
+            const savedTheme = localStorage.getItem('anydo_theme');
+            return savedTheme ? savedTheme : 'light';
+        }
+        return 'light'; // Default for SSR
     });
 
     useEffect(() => {

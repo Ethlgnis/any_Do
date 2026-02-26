@@ -76,6 +76,9 @@ export default function LiveChat() {
         });
     };
 
+    // Firebase is disabled, and user requested to stop it.
+    return null;
+
     if (!isAuthenticated) return null;
 
     return (

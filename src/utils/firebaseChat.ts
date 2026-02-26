@@ -15,27 +15,30 @@ import {
 
 // Firebase Configuration
 const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID,
-    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || process.env.VITE_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || process.env.VITE_FIREBASE_AUTH_DOMAIN,
+    databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL || process.env.VITE_FIREBASE_DATABASE_URL,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || process.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || process.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || process.env.VITE_FIREBASE_APP_ID,
+    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || process.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase conditionally to prevent crash on empty/placeholder config
 let app = null;
 let database = null;
 
+// FORCE DISABLE FIREBASE - User requested to stop firebase
+const DISABLE_FIREBASE = true;
+
 try {
     const isPlaceholder = !firebaseConfig.apiKey || firebaseConfig.apiKey.includes('your_firebase_api_key');
-    if (!isPlaceholder && firebaseConfig.databaseURL && firebaseConfig.databaseURL.startsWith('http')) {
+    if (!DISABLE_FIREBASE && !isPlaceholder && firebaseConfig.databaseURL && firebaseConfig.databaseURL.startsWith('http')) {
         app = initializeApp(firebaseConfig);
         database = getDatabase(app);
     } else {
-        console.warn('Firebase initialization skipped: Please set up valid VITE_FIREBASE variables in .env');
+        console.warn('Firebase activity stopped as per user request or invalid config.');
     }
 } catch (error) {
     console.error('Failed to initialize Firebase:', error);
