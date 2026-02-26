@@ -1,6 +1,6 @@
 @use '../../styles/variables' as *;
 
-.chats-section {
+.friend-list-section {
     padding: var(--spacing-2xl) var(--spacing-lg);
     max-width: 1200px;
     margin: 0 auto;
@@ -56,13 +56,13 @@
         margin-top: var(--spacing-xl);
     }
 
-    .chats-grid {
+    .friends-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
         gap: var(--spacing-xl);
     }
 
-    .chat-card-big {
+    .friend-card-big {
         position: relative;
         background: rgba(255, 255, 255, 0.02);
         backdrop-filter: blur(10px);
@@ -79,18 +79,18 @@
             transform: translateY(-5px);
             box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.3);
 
-            .chat-card-glow {
+            .friend-card-glow {
                 opacity: 0.15;
             }
 
-            .chat-avatar {
+            .friend-avatar {
                 transform: scale(1.1);
                 background: var(--accent-primary);
                 color: white;
             }
         }
 
-        .chat-card-glow {
+        .friend-card-glow {
             position: absolute;
             top: 0;
             left: 0;
@@ -101,7 +101,7 @@
             transition: opacity 0.4s ease;
         }
 
-        .chat-card-content {
+        .friend-card-content {
             position: relative;
             z-index: 1;
             padding: var(--spacing-xl);
@@ -111,12 +111,12 @@
         }
     }
 
-    .chat-card-header {
+    .friend-card-header {
         display: flex;
         align-items: center;
         gap: var(--spacing-md);
 
-        .chat-avatar {
+        .friend-avatar {
             width: 50px;
             height: 50px;
             border-radius: 18px;
@@ -130,15 +130,15 @@
             transition: all 0.3s ease;
         }
 
-        .chat-meta {
+        .friend-meta {
             flex: 1;
-            .chat-name {
+            .friend-name {
                 font-size: var(--font-size-lg);
                 font-weight: 700;
                 color: var(--text-primary);
                 margin-bottom: 2px;
             }
-            .chat-label {
+            .friend-label {
                 font-size: var(--font-size-xs);
                 color: var(--text-tertiary);
                 text-transform: uppercase;
@@ -160,7 +160,7 @@
             transition: all 0.2s ease;
             opacity: 0;
 
-            .chat-card-big:hover & {
+            .friend-card-big:hover & {
                 opacity: 0.6;
             }
 
@@ -172,7 +172,7 @@
         }
     }
 
-    .chat-body-preview {
+    .friend-body-preview {
         font-size: var(--font-size-md);
         color: var(--text-secondary);
         line-height: 1.6;
@@ -181,7 +181,7 @@
         mask-image: linear-gradient(to bottom, black 60%, transparent);
     }
 
-    .chat-card-footer {
+    .friend-card-footer {
         display: flex;
         justify-content: space-between;
         align-items: center;

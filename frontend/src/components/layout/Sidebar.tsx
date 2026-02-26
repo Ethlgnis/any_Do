@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import {
     FolderOpen, Link2, CheckSquare, MessageCircle, Crown,
     LayoutDashboard, Settings, Cloud, CloudOff,
-    ChevronLeft, ChevronRight, RefreshCw, Sparkles, Users
+    ChevronLeft, ChevronRight, RefreshCw, Sparkles, Users, Plus, UserPlus
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { getDriveQuota } from '../../utils/driveStorage';
@@ -37,6 +37,41 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
     const [driveStorage, setDriveStorage] = useState<DriveStorage | null>(null);
     const [isLoadingStorage, setIsLoadingStorage] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
+    const [friends, setFriends] = useState<{ id: string, name: string }[]>([]);
+    const [newFriendName, setNewFriendName] = useState('');
+
+    // Load friends from localStorage
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const savedFriends = localStorage.getItem('anydo_friends');
+            if (savedFriends) {
+                try {
+                    setFriends(JSON.parse(savedFriends));
+                } catch (e) {
+                    console.error('Error parsing friends:', e);
+                }
+            }
+        }
+    }, []);
+
+    // Save friends to localStorage
+    useEffect(() => {
+        if (typeof window !== 'undefined' && friends.length > 0) {
+            localStorage.setItem('anydo_friends', JSON.stringify(friends));
+        }
+    }, [friends]);
+
+    const handleAddFriend = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (newFriendName.trim()) {
+            const newFriend = {
+                id: Date.now().toString(),
+                name: newFriendName.trim()
+            };
+            setFriends([...friends, newFriend]);
+            setNewFriendName('');
+        }
+    };
 
     useEffect(() => {
         setIsMobile(window.innerWidth <= 1024);
@@ -161,6 +196,49 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
                         ))}
                     </ul>
                 </nav>
+                
+                {/* Friend List Section */}
+                <div className={`sidebar-friends-section ${collapsed ? 'collapsed' : ''}`}>
+                    {!collapsed && (
+                        <div className="friends-header">
+                            <Users size={16} />
+                            <span>Friends</span>
+                        </div>
+                    )}
+                    
+                    {!collapsed && (
+                        <form className="add-friend-form" onSubmit={handleAddFriend}>
+                            <input 
+                                type="text" 
+                                placeholder="Add friend..." 
+                                value={newFriendName}
+                                onChange={(e) => setNewFriendName(e.target.value)}
+                            />
+                            <button type="submit" title="Add Friend">
+                                <Plus size={16} />
+                            </button>
+                        </form>
+                    )}
+
+                    {collapsed && (
+                        <div className="add-friend-collapsed">
+                             <button onClick={() => setCollapsed(false)} title="Add Friend">
+                                <UserPlus size={20} />
+                            </button>
+                        </div>
+                    )}
+
+                    <div className="friends-list">
+                        {friends.map(friend => (
+                            <div key={friend.id} className="friend-item" title={collapsed ? friend.name : undefined}>
+                                <div className="friend-avatar">
+                                    {friend.name.charAt(0).toUpperCase()}
+                                </div>
+                                {!collapsed && <span className="friend-name">{friend.name}</span>}
+                            </div>
+                        ))}
+                    </div>
+                </div>
 
                 {/* Footer */}
                 <div className="sidebar-footer">

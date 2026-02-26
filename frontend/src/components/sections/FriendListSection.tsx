@@ -1,19 +1,19 @@
 import { useState, useRef } from 'react';
 import {
-    MessageCircle, Plus, Upload, Trash2, Eye, X,
-    Calendar, MessageSquare
+    Plus, Upload, Trash2, Eye, X,
+    Calendar, MessageSquare, Users
 } from 'lucide-react';
 import { getRelativeTime } from '../../utils/storage';
-import './ChatsSection.scss';
+import './FriendListSection.scss';
 
-interface ChatsSectionProps {
+interface FriendListSectionProps {
     chats: any[];
     onAdd: (chat: any) => void;
     onDelete: (id: string) => void;
     searchQuery: string;
 }
 
-export default function ChatsSection({ chats, onAdd, onDelete, searchQuery }: ChatsSectionProps) {
+export default function FriendListSection({ chats, onAdd, onDelete, searchQuery }: FriendListSectionProps) {
     const [showModal, setShowModal] = useState(false);
     const [viewingChat, setViewingChat] = useState<{ name: string; content: string } | null>(null);
     const [formData, setFormData] = useState({ name: '', content: '' });
@@ -113,38 +113,38 @@ export default function ChatsSection({ chats, onAdd, onDelete, searchQuery }: Ch
     };
 
     return (
-        <section className="chats-section">
+        <section className="friend-list-section">
             <div className="section-hero">
                 <div className="hero-content">
-                    <h1 className="hero-title gradient-text">Your Conversations</h1>
-                    <p className="hero-subtitle">Search, view, and manage your imported chat history</p>
+                    <h1 className="hero-title gradient-text">Friend List</h1>
+                    <p className="hero-subtitle">Search, view, and manage your imported friends history</p>
                     
                     <button className="btn btn-big-import" onClick={() => setShowModal(true)}>
                         <Upload size={20} />
-                        <span>Import New Chat</span>
+                        <span>Import Friend List</span>
                     </button>
                 </div>
             </div>
 
             <div className="section-content">
-                {filteredChats.length > 0 ? (
-                    <div className="chats-grid">
+                {filteredChats.length > 0 && (
+                    <div className="friends-grid">
                         {filteredChats.map((chat, index) => (
                             <div
                                 key={chat.id}
-                                className="chat-card-big stagger-item"
+                                className="friend-card-big stagger-item"
                                 style={{ animationDelay: `${index * 0.05}s` }}
                                 onClick={() => setViewingChat(chat)}
                             >
-                                <div className="chat-card-glow"></div>
-                                <div className="chat-card-content">
-                                    <div className="chat-card-header">
-                                        <div className="chat-avatar">
+                                <div className="friend-card-glow"></div>
+                                <div className="friend-card-content">
+                                    <div className="friend-card-header">
+                                        <div className="friend-avatar">
                                             {chat.name.charAt(0).toUpperCase()}
                                         </div>
-                                        <div className="chat-meta">
-                                            <h3 className="chat-name">{chat.name}</h3>
-                                            <span className="chat-label">{chat.messageCount} messages</span>
+                                        <div className="friend-meta">
+                                            <h3 className="friend-name">{chat.name}</h3>
+                                            <span className="friend-label">{chat.messageCount} messages</span>
                                         </div>
                                         <button
                                             className="delete-btn"
@@ -157,35 +157,23 @@ export default function ChatsSection({ chats, onAdd, onDelete, searchQuery }: Ch
                                         </button>
                                     </div>
 
-                                    <div className="chat-body-preview">
+                                    <div className="friend-body-preview">
                                         <p>{chat.content.substring(0, 180)}...</p>
                                     </div>
 
-                                    <div className="chat-card-footer">
+                                    <div className="friend-card-footer">
                                         <span className="date-tag">
                                             <Calendar size={12} />
                                             {getRelativeTime(chat.addedAt)}
                                         </span>
                                         <div className="read-more">
-                                            <span>Read full chat</span>
+                                            <span>View profile</span>
                                             <Eye size={14} />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         ))}
-                    </div>
-                ) : (
-                    <div className="empty-state-big">
-                        <div className="empty-icon-wrapper">
-                            <MessageCircle size={48} />
-                        </div>
-                        <h3>No conversations yet</h3>
-                        <p>Import your WhatsApp export (.txt) to search and relive your memories.</p>
-                        <button className="btn btn-primary btn-big" onClick={() => setShowModal(true)}>
-                            <Plus size={20} />
-                            Get Started
-                        </button>
                     </div>
                 )}
             </div>
@@ -195,7 +183,7 @@ export default function ChatsSection({ chats, onAdd, onDelete, searchQuery }: Ch
                 <div className="modal-overlay" onClick={() => setShowModal(false)}>
                     <div className="modal" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h2 className="modal-title">Import Chat</h2>
+                            <h2 className="modal-title">Import Friend List</h2>
                             <button className="modal-close" onClick={() => setShowModal(false)}>
                                 <X size={18} />
                             </button>
@@ -251,8 +239,8 @@ export default function ChatsSection({ chats, onAdd, onDelete, searchQuery }: Ch
                                     Cancel
                                 </button>
                                 <button type="submit" className="btn btn-primary">
-                                    <MessageCircle size={16} />
-                                    Import Chat
+                                    <Users size={16} />
+                                    Import Friend List
                                 </button>
                             </div>
                         </form>
