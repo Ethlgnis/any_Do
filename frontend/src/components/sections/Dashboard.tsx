@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import {
-    FolderOpen, Link2, CheckSquare, MessageCircle,
-    TrendingUp, Clock, Calendar, Plus, Image, Search, Globe, HelpCircle, Send, Loader2
+    FolderOpen, MessageCircle,
+    Plus, Image, Search, Globe, HelpCircle, Send, Loader2
 } from 'lucide-react';
 import { aiChat } from '../../utils/aiService';
-import { formatFileSize, getRelativeTime } from '../../utils/storage';
+
 import './Dashboard.scss';
 
 interface DashboardProps {

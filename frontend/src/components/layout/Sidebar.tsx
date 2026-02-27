@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import {
-    FolderOpen, Link2, CheckSquare, MessageCircle, Crown,
-    LayoutDashboard, Settings, Cloud, CloudOff,
+    FolderOpen, Link2, CheckSquare,
+    Settings, Cloud, CloudOff,
     ChevronLeft, ChevronRight, RefreshCw, Sparkles, Users, Plus, UserPlus
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -148,6 +148,10 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
 
     const storageInfo = getStorageInfo();
 
+    const storageWidthClass = storageInfo
+        ? `storage-fill-${Math.round(storageInfo.percentage / 5) * 5}`
+        : 'storage-fill-0';
+
     return (
         <>
             {/* Mobile Overlay */}
@@ -265,10 +269,7 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
                                     {!collapsed && (
                                         <>
                                             <div className="storage-bar">
-                                                <div
-                                                    className="storage-fill cloud"
-                                                    style={{ width: `${storageInfo.percentage}%` }}
-                                                />
+                                                <div className={`storage-fill cloud ${storageWidthClass}`} />
                                             </div>
                                             <div className="storage-text">
                                                 {storageInfo.used} / {storageInfo.total}

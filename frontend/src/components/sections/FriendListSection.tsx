@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import {
-    Plus, Upload, Trash2, Eye, X,
-    Calendar, MessageSquare, Users
+    Upload, Trash2, Eye, X,
+    Calendar, Users
 } from 'lucide-react';
 import { getRelativeTime } from '../../utils/storage';
 import './FriendListSection.scss';
@@ -129,11 +129,10 @@ export default function FriendListSection({ chats, onAdd, onDelete, searchQuery 
             <div className="section-content">
                 {filteredChats.length > 0 && (
                     <div className="friends-grid">
-                        {filteredChats.map((chat, index) => (
+                        {filteredChats.map((chat) => (
                             <div
                                 key={chat.id}
                                 className="friend-card-big stagger-item"
-                                style={{ animationDelay: `${index * 0.05}s` }}
                                 onClick={() => setViewingChat(chat)}
                             >
                                 <div className="friend-card-glow"></div>
@@ -152,6 +151,8 @@ export default function FriendListSection({ chats, onAdd, onDelete, searchQuery 
                                                 e.stopPropagation();
                                                 onDelete(chat.id);
                                             }}
+                                            aria-label="Delete chat"
+                                            title="Delete chat"
                                         >
                                             <Trash2 size={16} />
                                         </button>
@@ -184,7 +185,12 @@ export default function FriendListSection({ chats, onAdd, onDelete, searchQuery 
                     <div className="modal" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
                             <h2 className="modal-title">Import Friend List</h2>
-                            <button className="modal-close" onClick={() => setShowModal(false)}>
+                            <button
+                                className="modal-close"
+                                onClick={() => setShowModal(false)}
+                                aria-label="Close import modal"
+                                title="Close import modal"
+                            >
                                 <X size={18} />
                             </button>
                         </div>
@@ -254,7 +260,12 @@ export default function FriendListSection({ chats, onAdd, onDelete, searchQuery 
                     <div className="modal chat-viewer-modal" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
                             <h2 className="modal-title">{viewingChat?.name}</h2>
-                            <button className="modal-close" onClick={() => setViewingChat(null)}>
+                            <button
+                                className="modal-close"
+                                onClick={() => setViewingChat(null)}
+                                aria-label="Close chat viewer"
+                                title="Close chat viewer"
+                            >
                                 <X size={18} />
                             </button>
                         </div>

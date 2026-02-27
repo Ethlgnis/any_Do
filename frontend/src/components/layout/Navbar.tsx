@@ -3,17 +3,34 @@ import { Search, Menu, X, Cloud, CloudOff, LogOut, User, Crown } from 'lucide-re
 import { useAuth } from '../../context/AuthContext';
 import './Navbar.scss';
 
-export default function Navbar({ onSearch, onAddClick, onMenuClick, showMobileMenu, onSync, isSyncing, onMenuChange }) {
+interface NavbarProps {
+    onSearch?: (query: string) => void;
+    onMenuClick: () => void;
+    showMobileMenu: boolean;
+    onSync: () => Promise<void>;
+    isSyncing: boolean;
+    onMenuChange?: (section: string) => void;
+}
+
+export default function Navbar({
+    onSearch,
+    onMenuClick,
+    showMobileMenu,
+    onSync,
+    isSyncing,
+    onMenuChange,
+}: NavbarProps) {
     const { user, isAuthenticated, logout } = useAuth();
     const [searchQuery, setSearchQuery] = useState('');
     const [searchFocused, setSearchFocused] = useState(false);
     const [showUserMenu, setShowUserMenu] = useState(false);
-    const userMenuRef = useRef(null);
+    const userMenuRef = useRef<HTMLDivElement | null>(null);
 
     // Close user menu when clicking outside
     useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+        const handleClickOutside = (e: MouseEvent) => {
+            const target = e.target as Node | null;
+            if (userMenuRef.current && target && !userMenuRef.current.contains(target)) {
                 setShowUserMenu(false);
             }
         };
@@ -21,7 +38,7 @@ export default function Navbar({ onSearch, onAddClick, onMenuClick, showMobileMe
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const handleSearch = (e) => {
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setSearchQuery(value);
         onSearch?.(value);
@@ -51,6 +68,9 @@ export default function Navbar({ onSearch, onAddClick, onMenuClick, showMobileMe
                         <button
                             className="search-clear"
                             onClick={() => { setSearchQuery(''); onSearch?.(''); }}
+                            type="button"
+                            aria-label="Clear search"
+                            title="Clear search"
                         >
                             <X size={14} />
                         </button>

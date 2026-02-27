@@ -4,10 +4,10 @@
 const FOLDER_NAME = 'AnyDo Storage';
 const DATA_FILE_NAME = 'anydo_data.json';
 
-let appFolderId = null;
+let appFolderId: string | null = null;
 
 // Get or create the app folder in Drive
-async function getOrCreateAppFolder(accessToken) {
+async function getOrCreateAppFolder(accessToken: string) {
     if (appFolderId) return appFolderId;
 
     // Search for existing folder
@@ -40,7 +40,7 @@ async function getOrCreateAppFolder(accessToken) {
 }
 
 // Upload a file to Google Drive
-export async function uploadFileToDrive(accessToken, file, localId) {
+export async function uploadFileToDrive(accessToken: string, file: File, localId: string) {
     const folderId = await getOrCreateAppFolder(accessToken);
 
     const metadata = {
@@ -62,7 +62,7 @@ export async function uploadFileToDrive(accessToken, file, localId) {
 }
 
 // Delete a file from Google Drive
-export async function deleteFileFromDrive(accessToken, driveFileId) {
+export async function deleteFileFromDrive(accessToken: string, driveFileId: string) {
     await fetch(`https://www.googleapis.com/drive/v3/files/${driveFileId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${accessToken}` },
@@ -70,7 +70,7 @@ export async function deleteFileFromDrive(accessToken, driveFileId) {
 }
 
 // Sync app data (links, todos, chats) to Drive
-export async function syncDataToDrive(accessToken, data) {
+export async function syncDataToDrive(accessToken: string, data: unknown) {
     const folderId = await getOrCreateAppFolder(accessToken);
 
     // Check if data file exists
@@ -114,7 +114,7 @@ export async function syncDataToDrive(accessToken, data) {
 }
 
 // Load app data from Drive
-export async function loadDataFromDrive(accessToken) {
+export async function loadDataFromDrive(accessToken: string) {
     const folderId = await getOrCreateAppFolder(accessToken);
 
     // Find data file
@@ -137,7 +137,7 @@ export async function loadDataFromDrive(accessToken) {
 }
 
 // List all files in app folder
-export async function listDriveFiles(accessToken) {
+export async function listDriveFiles(accessToken: string) {
     const folderId = await getOrCreateAppFolder(accessToken);
 
     const res = await fetch(
@@ -149,7 +149,7 @@ export async function listDriveFiles(accessToken) {
 }
 
 // Get storage quota info
-export async function getDriveQuota(accessToken) {
+export async function getDriveQuota(accessToken: string) {
     const res = await fetch(
         'https://www.googleapis.com/drive/v3/about?fields=storageQuota',
         { headers: { Authorization: `Bearer ${accessToken}` } }

@@ -398,6 +398,28 @@
     &.cloud {
         background: linear-gradient(90deg, #4285F4 0%, #34A853 50%, #FBBC05 100%);
     }
+
+    &.storage-fill-0 { width: 0; }
+    &.storage-fill-5 { width: 5%; }
+    &.storage-fill-10 { width: 10%; }
+    &.storage-fill-15 { width: 15%; }
+    &.storage-fill-20 { width: 20%; }
+    &.storage-fill-25 { width: 25%; }
+    &.storage-fill-30 { width: 30%; }
+    &.storage-fill-35 { width: 35%; }
+    &.storage-fill-40 { width: 40%; }
+    &.storage-fill-45 { width: 45%; }
+    &.storage-fill-50 { width: 50%; }
+    &.storage-fill-55 { width: 55%; }
+    &.storage-fill-60 { width: 60%; }
+    &.storage-fill-65 { width: 65%; }
+    &.storage-fill-70 { width: 70%; }
+    &.storage-fill-75 { width: 75%; }
+    &.storage-fill-80 { width: 80%; }
+    &.storage-fill-85 { width: 85%; }
+    &.storage-fill-90 { width: 90%; }
+    &.storage-fill-95 { width: 95%; }
+    &.storage-fill-100 { width: 100%; }
 }
 
 .storage-status {

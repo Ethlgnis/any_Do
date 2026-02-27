@@ -6,7 +6,9 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  {
+    ignores: ['dist', '.next', 'node_modules'],
+  },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
@@ -19,6 +21,11 @@ export default tseslint.config(
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
     },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
     rules: {
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
@@ -29,8 +36,7 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
       'react/prop-types': 'off',
-      // Disable noisy any type warnings given the hybrid JS/TS codebase
-      '@typescript-eslint/no-explicit-any': 'off'
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
 )

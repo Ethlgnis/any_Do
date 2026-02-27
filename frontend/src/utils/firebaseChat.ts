@@ -26,8 +26,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase conditionally
-let app = null;
-let database = null;
+let app: ReturnType<typeof initializeApp> | null = null;
+let database: ReturnType<typeof getDatabase> | null = null;
 
 try {
     const hasConfig = firebaseConfig.apiKey && 
@@ -47,7 +47,7 @@ try {
 /**
  * Generate a short user ID from Google ID
  */
-export function generateChatUserId(googleId) {
+export function generateChatUserId(googleId: string) {
     // Create a short hash from the Google ID
     const hash = googleId.split('').reduce((acc, char) => {
         return ((acc << 5) - acc) + char.charCodeAt(0);
@@ -84,7 +84,7 @@ export function setUserOnline(user: any) {
 /**
  * Set user offline
  */
-export function setUserOffline(chatUserId: any) {
+export function setUserOffline(chatUserId: string | null) {
     if (!database) return;
     if (!chatUserId) return;
     const userRef = ref(database, `presence/${chatUserId}`);
@@ -94,7 +94,7 @@ export function setUserOffline(chatUserId: any) {
 /**
  * Subscribe to online users
  */
-export function subscribeToOnlineUsers(callback: any) {
+export function subscribeToOnlineUsers(callback: (users: any[]) => void) {
     if (!database) {
         callback([]);
         return () => {};
@@ -113,7 +113,7 @@ export function subscribeToOnlineUsers(callback: any) {
 /**
  * Send a message to another user
  */
-export function sendMessage(fromUser: any, toUserId: any, message: any) {
+export function sendMessage(fromUser: any, toUserId: string, message: string) {
     if (!database) return null;
     if (!fromUser || !toUserId || !message.trim()) return;
 
@@ -136,7 +136,7 @@ export function sendMessage(fromUser: any, toUserId: any, message: any) {
 /**
  * Subscribe to messages in a conversation
  */
-export function subscribeToMessages(userId1: any, userId2: any, callback: any) {
+export function subscribeToMessages(userId1: string, userId2: string, callback: (messages: any[]) => void) {
     if (!database) {
         callback([]);
         return () => {};
@@ -160,7 +160,7 @@ export function subscribeToMessages(userId1: any, userId2: any, callback: any) {
 /**
  * Subscribe to all messages for a user (for notifications)
  */
-export function subscribeToAllUserMessages(chatUserId: any, callback: any) {
+export function subscribeToAllUserMessages(chatUserId: string, callback: (messages: any[]) => void) {
     if (!database) {
         callback([]);
         return () => {};

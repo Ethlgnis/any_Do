@@ -6,18 +6,26 @@ import {
 import { aiChat, aiSearch, aiSummarize, aiSuggestions } from '../../utils/aiService';
 import './AIAssistant.scss';
 
-export default function AIAssistant({ files, links, todos, chats, onAddTodo }) {
+interface AIAssistantProps {
+    files: any[];
+    links: any[];
+    todos: any[];
+    chats: any[];
+    onAddTodo?: (todo: any) => void;
+}
+
+export default function AIAssistant({ files, links, todos, chats, onAddTodo }: AIAssistantProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [activeTab, setActiveTab] = useState('chat');
-    const [messages, setMessages] = useState([
-        { role: 'assistant', content: 'Hi! I\'m Kiro, your AI assistant 🤖 How can I help you today?' }
+    const [messages, setMessages] = useState<{ role: 'assistant' | 'user'; content: string }[]>([
+        { role: 'assistant', content: 'Hi! I\'m Kiro, your AI assistant 🤖 How can I help you today?' },
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [searchResults, setSearchResults] = useState([]);
-    const [suggestions, setSuggestions] = useState([]);
+    const [searchResults, setSearchResults] = useState<{ type: string; name: string; reason: string }[]>([]);
+    const [suggestions, setSuggestions] = useState<string[]>([]);
     const [summary, setSummary] = useState('');
-    const messagesEndRef = useRef(null);
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
     const context = { files, links, todos, chats };
 
@@ -27,7 +35,7 @@ export default function AIAssistant({ files, links, todos, chats, onAddTodo }) {
     }, [messages]);
 
     // Handle chat message
-    const handleSendMessage = async (e) => {
+    const handleSendMessage = async (e?: React.FormEvent<HTMLFormElement>) => {
         e?.preventDefault();
         if (!input.trim() || isLoading) return;
 
@@ -50,7 +58,7 @@ export default function AIAssistant({ files, links, todos, chats, onAddTodo }) {
     };
 
     // Handle smart search
-    const handleSearch = async (e) => {
+    const handleSearch = async (e?: React.FormEvent<HTMLFormElement>) => {
         e?.preventDefault();
         if (!input.trim() || isLoading) return;
 
@@ -83,7 +91,7 @@ export default function AIAssistant({ files, links, todos, chats, onAddTodo }) {
     };
 
     // Get summary
-    const handleSummarize = async (type) => {
+    const handleSummarize = async (type: 'todos' | 'chats') => {
         setIsLoading(true);
         setSummary('');
 
@@ -105,7 +113,7 @@ export default function AIAssistant({ files, links, todos, chats, onAddTodo }) {
     };
 
     // Add suggestion as todo
-    const handleAddSuggestion = (suggestion) => {
+    const handleAddSuggestion = (suggestion: string) => {
         if (onAddTodo) {
             onAddTodo({ title: suggestion, completed: false });
             setSuggestions(prev => prev.filter(s => s !== suggestion));

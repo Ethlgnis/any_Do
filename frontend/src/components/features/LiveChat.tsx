@@ -10,20 +10,35 @@ import {
 } from '../../utils/firebaseChat';
 import './LiveChat.scss';
 
+interface OnlineUser {
+    id: string;
+    name: string;
+    email: string;
+    picture: string;
+}
+
+interface ChatMessage {
+    id: string;
+    senderId: string;
+    senderPicture: string;
+    text: string;
+    timestamp: number | string | Date;
+}
+
 export default function LiveChat() {
     const { user, isAuthenticated } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
-    const [onlineUsers, setOnlineUsers] = useState([]);
-    const [selectedUser, setSelectedUser] = useState(null);
-    const [messages, setMessages] = useState([]);
+    const [onlineUsers, setOnlineUsers] = useState<OnlineUser[]>([]);
+    const [selectedUser, setSelectedUser] = useState<OnlineUser | null>(null);
+    const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [newMessage, setNewMessage] = useState('');
-    const [myChatId, setMyChatId] = useState(null);
-    const messagesEndRef = useRef(null);
+    const [myChatId, setMyChatId] = useState<string | null>(null);
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
     // Set user online when authenticated
     useEffect(() => {
         if (isAuthenticated && user?.id) {
-            const chatId = setUserOnline(user);
+            const chatId = setUserOnline(user) ?? null;
             setMyChatId(chatId);
 
             return () => {
@@ -36,7 +51,7 @@ export default function LiveChat() {
     useEffect(() => {
         if (!isAuthenticated) return;
 
-        const unsubscribe = subscribeToOnlineUsers((users) => {
+        const unsubscribe = subscribeToOnlineUsers((users: OnlineUser[]) => {
             // Filter out current user
             const otherUsers = users.filter(u => u.id !== myChatId);
             setOnlineUsers(otherUsers);
@@ -49,7 +64,7 @@ export default function LiveChat() {
     useEffect(() => {
         if (!selectedUser || !myChatId) return;
 
-        const unsubscribe = subscribeToMessages(myChatId, selectedUser.id, (msgs) => {
+        const unsubscribe = subscribeToMessages(myChatId, selectedUser.id, (msgs: ChatMessage[]) => {
             setMessages(msgs);
         });
 
@@ -62,7 +77,7 @@ export default function LiveChat() {
     }, [messages]);
 
     // Handle message sending
-    const handleSendMessage = (e) => {
+    const handleSendMessage = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!newMessage.trim() || !selectedUser) return;
 
@@ -70,7 +85,7 @@ export default function LiveChat() {
         setNewMessage('');
     };
 
-    const formatTime = (timestamp) => {
+    const formatTime = (timestamp: number | string | Date) => {
         return new Date(timestamp).toLocaleTimeString([], {
             hour: '2-digit',
             minute: '2-digit'
@@ -103,6 +118,8 @@ export default function LiveChat() {
                                 <button
                                     className="back-btn"
                                     onClick={() => setSelectedUser(null)}
+                                    aria-label="Back to online users"
+                                    title="Back to online users"
                                 >
                                     <ArrowLeft size={18} />
                                 </button>
@@ -203,6 +220,8 @@ export default function LiveChat() {
                                 type="submit"
                                 className="send-btn"
                                 disabled={!newMessage.trim()}
+                                aria-label="Send message"
+                                title="Send message"
                             >
                                 <Send size={18} />
                             </button>

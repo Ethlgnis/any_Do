@@ -15,8 +15,9 @@ export default function MainLayoutClient({ children }: { children: React.ReactNo
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     
     const {
-        files, links, todos, chats,
-        setSearchQuery, handleSync, isSyncing, handleTodoAdd
+        setSearchQuery,
+        handleSync,
+        isSyncing,
     } = useAppContext();
 
     // Map pathname to active section for Sidebar highlighting
@@ -29,12 +30,6 @@ export default function MainLayoutClient({ children }: { children: React.ReactNo
             router.push(`/${section}`);
         }
         setShowMobileMenu(false);
-    };
-
-    const handleAddClick = () => {
-        if (activeSection === 'dashboard') {
-            router.push('/files');
-        }
     };
 
     if (isLoading) {
@@ -55,7 +50,6 @@ export default function MainLayoutClient({ children }: { children: React.ReactNo
 
             <Navbar
                 onSearch={setSearchQuery}
-                onAddClick={handleAddClick}
                 onMenuChange={handleSectionChange}
                 onMenuClick={() => setShowMobileMenu(!showMobileMenu)}
                 showMobileMenu={showMobileMenu}
