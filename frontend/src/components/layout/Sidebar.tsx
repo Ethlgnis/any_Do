@@ -4,7 +4,8 @@ import { useState, useEffect, useCallback } from 'react';
 import {
     FolderOpen, Link2, CheckSquare,
     Settings, Cloud, CloudOff,
-    ChevronLeft, ChevronRight, RefreshCw, Sparkles, Users, Plus, UserPlus
+    ChevronLeft, ChevronRight, RefreshCw, Sparkles, Users, Plus, UserPlus, Globe, Shield,
+    MoreHorizontal, MessageSquarePlus, History
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { getDriveQuota } from '../../utils/driveStorage';
@@ -14,7 +15,7 @@ import './Sidebar.scss';
 const navItems = [
     { id: 'dashboard', label: 'Chat with AnyDo AI', icon: Sparkles },
     { id: 'files', label: 'Files', icon: FolderOpen },
-    { id: 'links', label: 'Links', icon: Link2 },
+    { id: 'links', label: 'Community', icon: Globe },
     { id: 'todos', label: 'To-Do List', icon: CheckSquare },
     { id: 'chats', label: 'Friend List', icon: Users },
 ];
@@ -39,6 +40,7 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
     const [showSettings, setShowSettings] = useState(false);
     const [friends, setFriends] = useState<{ id: string, name: string }[]>([]);
     const [newFriendName, setNewFriendName] = useState('');
+    const [isChatMenuOpen, setIsChatMenuOpen] = useState(false);
 
     // Load friends from localStorage
     useEffect(() => {
@@ -181,10 +183,13 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
                 <nav className="sidebar-nav">
                     <ul className="nav-list">
                         {navItems.map((item) => (
-                                <li key={item.id}>
+                                <li key={item.id} className="nav-list-item">
                                     <button
                                         className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
                                         onClick={() => {
+                                            if (item.id === 'dashboard') {
+                                                setIsChatMenuOpen(!isChatMenuOpen);
+                                            }
                                             onSectionChange(item.id);
                                             if (isMobile) setCollapsed(true);
                                         }}
@@ -196,6 +201,32 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
                                             <div className="nav-indicator" />
                                         )}
                                     </button>
+
+                                    {item.id === 'dashboard' && !collapsed && (
+                                        <button 
+                                            className={`more-options-btn ${isChatMenuOpen ? 'open' : ''}`}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setIsChatMenuOpen(!isChatMenuOpen);
+                                            }}
+                                            title="More options"
+                                        >
+                                            <MoreHorizontal size={14} />
+                                        </button>
+                                    )}
+
+                                    {item.id === 'dashboard' && !collapsed && isChatMenuOpen && (
+                                        <div className="sub-nav-menu">
+                                            <button className="sub-nav-item">
+                                                <MessageSquarePlus size={14} />
+                                                <span>New Chat</span>
+                                            </button>
+                                            <button className="sub-nav-item">
+                                                <History size={14} />
+                                                <span>History</span>
+                                            </button>
+                                        </div>
+                                    )}
                                 </li>
                         ))}
                     </ul>
@@ -249,6 +280,14 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
                     {/* Storage Indicator - Show error state or connected state */}
                     {isAuthenticated && (
                         <div className={`storage-indicator ${collapsed ? 'collapsed' : ''}`}>
+                            {!collapsed && (
+                                <div className="byos-badge-container">
+                                    <div className="byos-badge" title="Bring Your Own Storage">
+                                        <Shield size={10} className="shield-icon" />
+                                        <span>Bring Your Own Storage</span>
+                                    </div>
+                                </div>
+                            )}
                             {storageInfo ? (
                                 <>
                                     <div className="storage-header">

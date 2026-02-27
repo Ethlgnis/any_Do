@@ -62,8 +62,8 @@ export default function LinksSection({ links, onAdd, onDelete, searchQuery }: Li
         <section className="links-section">
             <div className="section-header">
                 <div>
-                    <h1 className="section-title">Links</h1>
-                    <p className="section-subtitle">{filteredLinks.length} links saved</p>
+                    <h1 className="section-title">Community</h1>
+                    <p className="section-subtitle">{filteredLinks.length} items saved</p>
                 </div>
                 <button className="btn btn-primary" onClick={() => setShowModal(true)}>
                     <Plus size={18} />
@@ -138,10 +138,10 @@ export default function LinksSection({ links, onAdd, onDelete, searchQuery }: Li
                 </div>
             ) : (
                 <div className="empty-state">
-                    <Link2 className="empty-state-icon" />
-                    <h3 className="empty-state-title">No links saved</h3>
+                    <Globe className="empty-state-icon" />
+                    <h3 className="empty-state-title">No items saved</h3>
                     <p className="empty-state-text">
-                        Save your favorite websites, articles, and resources
+                        Save your favorite websites, articles, and community resources
                     </p>
                     <button className="btn btn-primary" onClick={() => setShowModal(true)}>
                         <Plus size={18} />

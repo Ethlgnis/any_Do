@@ -292,22 +292,27 @@
         padding: 16px 20px !important;
         border-radius: 22px !important;
         line-height: 1.6 !important;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         position: relative;
 
         &.sent {
-            background: var(--accent-primary) !important;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.65), rgba(79, 70, 229, 0.65)) !important;
+            backdrop-filter: blur(16px) !important;
+            -webkit-backdrop-filter: blur(16px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
             color: white !important;
             align-self: flex-end;
             border-bottom-right-radius: 4px !important;
         }
 
         &.received {
-            background: rgba(255, 255, 255, 0.05) !important;
+            background: rgba(255, 255, 255, 0.04) !important;
+            backdrop-filter: blur(24px) !important;
+            -webkit-backdrop-filter: blur(24px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
             color: var(--text-primary) !important;
             align-self: flex-start;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.05) !important;
             border-bottom-left-radius: 4px !important;
         }
 
