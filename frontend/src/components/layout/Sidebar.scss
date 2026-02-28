@@ -25,7 +25,6 @@
     &.collapsed {
         width: 72px;
 
-        .logo-text,
         .nav-label,
         .storage-text,
         .storage-status,
@@ -72,7 +71,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-md) 0; // Top padding added, bottom removed
     border-bottom: 1px solid rgba(79, 142, 247, 0.08);
     overflow: hidden;
     flex-shrink: 0;
@@ -82,42 +81,21 @@
 .sidebar-logo {
     display: flex;
     align-items: center;
-    gap: 12px;
-}
-
-.logo-icon {
-    width: 34px;
-    height: 34px;
-    background: linear-gradient(135deg, #3b82f6 0%, #6366f1 60%, #8b5cf6 100%);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    color: white;
-    flex-shrink: 0;
-    box-shadow:
-        0 4px 16px rgba(79, 142, 247, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    flex-grow: 1;
+    margin-right: -12px;
+    margin-top: 8px; // "Slide down" the logo
+    overflow: hidden;
 
-    svg {
-        filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
+    .sidebar-logo-futuristic {
+        color: var(--text-primary);
+        width: 80px; // Default expanded size
+        transition: width 0.3s ease;
     }
 }
 
-.logo-text {
-    font-size: 1.2rem;
-    font-weight: 800;
-    font-family: var(--font-family);
-    letter-spacing: -0.03em;
-    background: linear-gradient(135deg, #93c5fd 0%, #818cf8 50%, #c4b5fd 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: all var(--transition-normal);
-
-    &:hover {
-        filter: brightness(1.1);
-    }
+.sidebar.collapsed .sidebar-logo-futuristic {
+    width: 28px; // Smaller icon when collapsed
 }
 
 /* Collapse Button */
@@ -568,6 +546,20 @@
     }
 
     .shield-icon { color: #818cf8; }
+}
+
+/* Logo */
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    overflow: hidden;
+
+    .sidebar-logo-futuristic {
+        color: var(--text-primary);
+        width: 80px; // Default expanded size
+        transition: width 0.3s ease;
+    }
 }
 
 .storage-header {
