@@ -39,37 +39,8 @@ async function getOrCreateAppFolder(accessToken: string) {
     return appFolderId;
 }
 
-// Upload a file to Google Drive
-export async function uploadFileToDrive(accessToken: string, file: File, localId: string) {
-    const folderId = await getOrCreateAppFolder(accessToken);
 
-    const metadata = {
-        name: `${localId}_${file.name}`,
-        parents: [folderId],
-    };
-
-    const formData = new FormData();
-    formData.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
-    formData.append('file', file);
-
-    const res = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${accessToken}` },
-        body: formData,
-    });
-
-    return await res.json();
-}
-
-// Delete a file from Google Drive
-export async function deleteFileFromDrive(accessToken: string, driveFileId: string) {
-    await fetch(`https://www.googleapis.com/drive/v3/files/${driveFileId}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${accessToken}` },
-    });
-}
-
-// Sync app data (links, todos, chats) to Drive
+// Sync app data (links, chats) to Drive
 export async function syncDataToDrive(accessToken: string, data: unknown) {
     const folderId = await getOrCreateAppFolder(accessToken);
 
@@ -136,17 +107,6 @@ export async function loadDataFromDrive(accessToken: string) {
     return null;
 }
 
-// List all files in app folder
-export async function listDriveFiles(accessToken: string) {
-    const folderId = await getOrCreateAppFolder(accessToken);
-
-    const res = await fetch(
-        `https://www.googleapis.com/drive/v3/files?q='${folderId}' in parents and trashed=false&fields=files(id,name,size,createdTime,mimeType)`,
-        { headers: { Authorization: `Bearer ${accessToken}` } }
-    );
-
-    return await res.json();
-}
 
 // Get storage quota info
 export async function getDriveQuota(accessToken: string) {
