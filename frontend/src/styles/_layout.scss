@@ -2,6 +2,7 @@
 .app-container {
     display: flex;
     min-height: 100vh;
+    background: var(--bg-primary);
 }
 
 /* Main Content */
@@ -11,6 +12,7 @@
     padding: var(--spacing-xl);
     padding-top: calc(var(--navbar-height) + var(--spacing-xl));
     min-height: 100vh;
+    transition: margin-left var(--transition-normal);
 }
 
 @media (max-width: 1024px) {
@@ -133,19 +135,20 @@
 /* Drop Zone */
 .drop-zone {
     position: relative;
-    border: 2px dashed var(--border-color);
+    border: 2px dashed rgba(79, 142, 247, 0.15);
     border-radius: var(--radius-xl);
     padding: var(--spacing-2xl);
     text-align: center;
     cursor: pointer;
     transition: all var(--transition-normal);
-    background: var(--bg-glass);
+    background: rgba(79, 142, 247, 0.025);
 }
 
 .drop-zone:hover,
 .drop-zone.active {
-    border-color: var(--accent-primary);
-    background: rgba(99, 102, 241, 0.05);
+    border-color: rgba(79, 142, 247, 0.45);
+    background: rgba(79, 142, 247, 0.05);
+    box-shadow: 0 0 30px rgba(79, 142, 247, 0.1);
 }
 
 .drop-zone.active {
@@ -164,7 +167,8 @@
 .drop-zone:hover .drop-zone-icon,
 .drop-zone.active .drop-zone-icon {
     color: var(--accent-primary);
-    transform: scale(1.1);
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 8px rgba(79, 142, 247, 0.4));
 }
 
 .drop-zone-title {

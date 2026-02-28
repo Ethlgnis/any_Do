@@ -47,7 +47,7 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-    const { accessToken, isAuthenticated, isLoading } = useAuth();
+    const { accessToken, driveAccessToken, isAuthenticated, isLoading } = useAuth();
     
     const [searchQuery, setSearchQuery] = useState('');
     const [isSyncing, setIsSyncing] = useState(false);
@@ -79,10 +79,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     }, [isAuthenticated, isLoading]);
 
     const loadFromDrive = useCallback(async () => {
-        if (!accessToken) return;
+        if (!driveAccessToken) return;
 
         try {
-            const driveData = await loadDataFromDrive(accessToken);
+            const driveData = await loadDataFromDrive(driveAccessToken);
             if (driveData) {
                 if (driveData.links) {
                     localStorage.setItem('anydo_links', JSON.stringify(driveData.links));
@@ -100,19 +100,19 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         } catch (error) {
             console.error('Error loading from Drive:', error);
         }
-    }, [accessToken]);
+    }, [driveAccessToken]);
 
     useEffect(() => {
-        if (isAuthenticated && accessToken) {
+        if (isAuthenticated && driveAccessToken) {
             loadFromDrive();
         }
-    }, [isAuthenticated, accessToken, loadFromDrive]);
+    }, [isAuthenticated, driveAccessToken, loadFromDrive]);
 
     useEffect(() => {
-        if (!isAuthenticated || !accessToken) return;
+        if (!isAuthenticated || !driveAccessToken) return;
 
         const syncTimeout = setTimeout(() => {
-            syncDataToDrive(accessToken, {
+            syncDataToDrive(driveAccessToken, {
                 links: getLinks(),
                 todos: getTodos(),
                 chats: getChats(),
@@ -121,14 +121,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         }, 2000);
 
         return () => clearTimeout(syncTimeout);
-    }, [links, todos, chats, isAuthenticated, accessToken]);
+    }, [links, todos, chats, isAuthenticated, driveAccessToken]);
 
     const handleSync = async () => {
-        if (!accessToken || isSyncing) return;
+        if (!driveAccessToken || isSyncing) return;
 
         setIsSyncing(true);
         try {
-            await syncDataToDrive(accessToken, {
+            await syncDataToDrive(driveAccessToken, {
                 links: getLinks(),
                 todos: getTodos(),
                 chats: getChats(),
@@ -147,9 +147,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
             const savedFile = await saveFile(file) as AnyDoFile;
             setFiles(getFilesMetadata());
 
-            if (accessToken) {
+            if (driveAccessToken) {
                 try {
-                    const driveResult = await uploadFileToDrive(accessToken, file, savedFile.id);
+                    const driveResult = await uploadFileToDrive(driveAccessToken, file, savedFile.id);
                     if (driveResult?.id) {
                         updateFileMetadata(savedFile.id, { driveFileId: driveResult.id });
                         setFiles(getFilesMetadata());
@@ -161,7 +161,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         } catch (error) {
             console.error('Error uploading file:', error);
         }
-    }, [accessToken]);
+    }, [driveAccessToken]);
 
     const handleFileDelete = useCallback(async (id: string) => {
         try {
@@ -169,9 +169,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
             await deleteFile(id);
             setFiles(getFilesMetadata());
 
-            if (accessToken && fileMeta?.driveFileId) {
+            if (driveAccessToken && fileMeta?.driveFileId) {
                 try {
-                    await deleteFileFromDrive(accessToken, fileMeta.driveFileId);
+                    await deleteFileFromDrive(driveAccessToken, fileMeta.driveFileId);
                     console.log('File deleted from Drive:', fileMeta.driveFileId);
                 } catch (e) {
                     console.error('Error deleting from Drive:', e);
@@ -180,7 +180,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         } catch (error) {
             console.error('Error deleting file:', error);
         }
-    }, [accessToken]);
+    }, [driveAccessToken]);
 
     const handleFileView = useCallback(async (file: AnyDoFile) => {
         try {

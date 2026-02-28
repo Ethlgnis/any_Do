@@ -32,7 +32,7 @@ interface DriveStorage {
 }
 
 export default function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
-    const { isAuthenticated, accessToken, login, handleAuthError } = useAuth();
+    const { isAuthenticated, driveAccessToken, loginWithGoogle, handleAuthError } = useAuth();
     const [collapsed, setCollapsed] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [driveStorage, setDriveStorage] = useState<DriveStorage | null>(null);
@@ -92,10 +92,10 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
     }, [isMobile]);
 
     const fetchDriveStorage = useCallback(async () => {
-        if (!accessToken) return;
+        if (!driveAccessToken) return;
         setIsLoadingStorage(true);
         try {
-            const quota = await getDriveQuota(accessToken);
+            const quota = await getDriveQuota(driveAccessToken);
             console.log('Drive quota response:', quota);
             if (quota.storageQuota) {
                 const storageData = {
@@ -113,17 +113,17 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
         } finally {
             setIsLoadingStorage(false);
         }
-    }, [accessToken, handleAuthError]);
+    }, [driveAccessToken, handleAuthError]);
 
     // Fetch Drive storage quota when authenticated
     useEffect(() => {
-        if (isAuthenticated && accessToken) {
+        if (isAuthenticated && driveAccessToken) {
             fetchDriveStorage();
             // Refresh storage every 30 seconds
             const interval = setInterval(fetchDriveStorage, 30000);
             return () => clearInterval(interval);
         }
-    }, [isAuthenticated, accessToken, fetchDriveStorage]);
+    }, [isAuthenticated, driveAccessToken, fetchDriveStorage]);
 
     const formatBytes = (bytes: number) => {
         if (bytes === 0) return '0 B';
@@ -329,12 +329,12 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
                                     {!collapsed && (
                                         <div className="drive-access-needed">
                                             <p>Enable Google Drive to store your data</p>
-                                            <button
-                                                className="grant-access-btn"
-                                                onClick={login}
-                                            >
-                                                Grant Access
-                                            </button>
+                                                <button
+                                                    className="grant-access-btn"
+                                                    onClick={loginWithGoogle}
+                                                >
+                                                    Grant Access
+                                                </button>
                                         </div>
                                     )}
                                 </>
