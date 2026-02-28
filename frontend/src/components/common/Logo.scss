@@ -1,0 +1,66 @@
+.anydo-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+
+  .logo-link {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; // Center content
+    width: 100%; // Take up full container width
+    color: inherit;
+    cursor: pointer;
+    outline: none;
+  }
+  transition: all 0.3s ease;
+
+  .logo-svg {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+  }
+
+  .logo-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 2s ease;
+  }
+
+  // Gaps are created by drawing white lines over the paths
+  // In a real dark mode / black bg context, this works well.
+  // We can also use masks for more robustness, but this is a clean start.
+  .gap-path {
+    stroke: var(--bg-deep, #000); // Matches the background
+  }
+
+  &.sm {
+    width: 40px;
+  }
+
+  &.md {
+    width: 70px;
+  }
+
+  &.lg {
+    width: 120px;
+  }
+
+  &.xl {
+    width: 180px;
+  }
+
+  &:hover {
+    filter: none;
+  }
+}
+
+// Ensure the logo container in themed areas works
+.sidebar-logo, .login-header {
+  .anydo-logo {
+    .gap-path {
+      stroke: transparent; // Let the parent's background show or use mask
+    }
+  }
+}

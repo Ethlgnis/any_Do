@@ -7,9 +7,11 @@ import {
     ChevronLeft, ChevronRight, RefreshCw, Sparkles, Users, Plus, UserPlus, Globe, Shield,
     MoreHorizontal, MessageSquarePlus, History
 } from 'lucide-react';
+import Link from 'next/link';
 import { useAuth } from '../../context/AuthContext';
 import { getDriveQuota } from '../../utils/driveStorage';
 import SettingsModal from '../features/SettingsModal';
+import Logo from '../common/Logo';
 import './Sidebar.scss';
 
 const navItems = [
@@ -165,10 +167,9 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
                 {/* Logo */}
                 <div className="sidebar-header">
                     <div className="sidebar-logo">
-                        <div className="logo-icon">
-                            <Sparkles size={20} />
-                        </div>
-                        {!collapsed && <span className="logo-text">AnyDo</span>}
+                        <Link href="/" className="logo-link">
+                            <Logo size="sm" className="sidebar-logo-futuristic" />
+                        </Link>
                     </div>
                     <button
                         className="collapse-btn"

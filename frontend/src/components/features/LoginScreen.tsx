@@ -1,5 +1,7 @@
+import Link from 'next/link';
 import { useAuth } from '../../context/AuthContext';
 import { Sparkles, Cloud, Shield, HardDrive } from 'lucide-react';
+import Logo from '../common/Logo';
 import './LoginScreen.scss';
 
 export default function LoginScreen() {
@@ -20,10 +22,9 @@ export default function LoginScreen() {
         <div className="login-screen">
             <div className="login-card">
                 <div className="login-header">
-                    <div className="login-logo">
-                        <Sparkles size={32} />
-                    </div>
-                    <h1>AnyDo</h1>
+                    <Link href="/" className="logo-link">
+                        <Logo size="lg" className="login-logo-futuristic" />
+                    </Link>
                     <p>Your data, your drive, your way.</p>
                 </div>
 

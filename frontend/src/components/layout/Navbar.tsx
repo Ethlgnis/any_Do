@@ -1,10 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import { Search, Menu, X, Cloud, CloudOff, LogOut, User, Crown, Shield } from 'lucide-react';
+import { Menu, X, Cloud, CloudOff, LogOut, User, Crown, Shield } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import './Navbar.scss';
 
 interface NavbarProps {
-    onSearch?: (query: string) => void;
     onMenuClick: () => void;
     showMobileMenu: boolean;
     onSync: () => Promise<void>;
@@ -13,7 +12,6 @@ interface NavbarProps {
 }
 
 export default function Navbar({
-    onSearch,
     onMenuClick,
     showMobileMenu,
     onSync,
@@ -21,8 +19,7 @@ export default function Navbar({
     onMenuChange,
 }: NavbarProps) {
     const { user, isAuthenticated, logout } = useAuth();
-    const [searchQuery, setSearchQuery] = useState('');
-    const [searchFocused, setSearchFocused] = useState(false);
+
     const [showUserMenu, setShowUserMenu] = useState(false);
     const userMenuRef = useRef<HTMLDivElement | null>(null);
 
@@ -38,11 +35,6 @@ export default function Navbar({
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setSearchQuery(value);
-        onSearch?.(value);
-    };
 
     return (
         <header className="navbar">
@@ -52,30 +44,6 @@ export default function Navbar({
                     {showMobileMenu ? <X size={22} /> : <Menu size={22} />}
                 </button>
 
-                {/* Search Bar */}
-                <div className={`search-container ${searchFocused ? 'focused' : ''}`}>
-                    <Search size={18} className="search-icon" />
-                    <input
-                        type="text"
-                        placeholder="Search files, links, todos..."
-                        value={searchQuery}
-                        onChange={handleSearch}
-                        onFocus={() => setSearchFocused(true)}
-                        onBlur={() => setSearchFocused(false)}
-                        className="search-input"
-                    />
-                    {searchQuery && (
-                        <button
-                            className="search-clear"
-                            onClick={() => { setSearchQuery(''); onSearch?.(''); }}
-                            type="button"
-                            aria-label="Clear search"
-                            title="Clear search"
-                        >
-                            <X size={14} />
-                        </button>
-                    )}
-                </div>
 
                 {/* Actions */}
                 <div className="navbar-actions">
