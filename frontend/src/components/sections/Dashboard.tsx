@@ -3,8 +3,8 @@ import {
     FolderOpen, MessageCircle,
     Plus, Image, Search, Globe, HelpCircle, Send, Loader2
 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 import { aiChat } from '../../utils/aiService';
-
 import './Dashboard.scss';
 
 interface DashboardProps {
@@ -20,6 +20,7 @@ export default function Dashboard({
     files, links, todos, chats, user,
     onNavigate
 }: DashboardProps) {
+    const { accessToken } = useAuth();
     const [messages, setMessages] = useState<any[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -58,7 +59,7 @@ export default function Dashboard({
 
         try {
             const context = { files, links, todos, chats };
-            const response = await aiChat(userMessage.content, context);
+            const response = await aiChat(userMessage.content, context, accessToken);
             
             const aiMessage = {
                 id: (Date.now() + 1).toString(),

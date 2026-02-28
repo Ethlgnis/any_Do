@@ -1,9 +1,14 @@
+import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Cloud, Sparkles } from 'lucide-react';
 import './LoginScreen.scss';
 
 export default function LoginScreen() {
     const { login, isLoading } = useAuth();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     if (isLoading) {
         return (
@@ -15,6 +20,19 @@ export default function LoginScreen() {
             </div>
         );
     }
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError(null);
+        setIsSubmitting(true);
+        try {
+            await login(email, password);
+        } catch (err: any) {
+            setError(err?.message || 'Invalid email or password');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     return (
         <div className="login-screen">
@@ -42,22 +60,35 @@ export default function LoginScreen() {
                     </div>
                 </div>
 
-                <button className="google-login-btn" onClick={login}>
-                    <span>
-                        Sign in with 
-                        <span className="google-brand">
-                            <span className="g-blue">G</span>
-                            <span className="g-red">o</span>
-                            <span className="g-yellow">o</span>
-                            <span className="g-blue">g</span>
-                            <span className="g-green">l</span>
-                            <span className="g-red">e</span>
-                        </span>
-                    </span>
-                </button>
+                <form className="login-form" onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            id="email"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            id="password"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    {error && <p className="login-error">{error}</p>}
+                    <button className="google-login-btn" type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? 'Signing in...' : 'Sign in'}
+                    </button>
+                </form>
 
                 <p className="login-note">
-                    Sign in to access your files and data stored in Google Drive
+                    Use your account to access your files, links, todos, chats, and more.
                 </p>
             </div>
 

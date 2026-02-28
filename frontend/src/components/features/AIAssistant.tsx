@@ -3,6 +3,7 @@ import {
     Sparkles, X, Send, Search, Lightbulb, FileText,
     MessageSquare, Loader2, Plus, ChevronRight
 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 import { aiChat, aiSearch, aiSummarize, aiSuggestions } from '../../utils/aiService';
 import './AIAssistant.scss';
 
@@ -15,6 +16,7 @@ interface AIAssistantProps {
 }
 
 export default function AIAssistant({ files, links, todos, chats, onAddTodo }: AIAssistantProps) {
+    const { accessToken } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
     const [activeTab, setActiveTab] = useState('chat');
     const [messages, setMessages] = useState<{ role: 'assistant' | 'user'; content: string }[]>([
@@ -45,7 +47,7 @@ export default function AIAssistant({ files, links, todos, chats, onAddTodo }: A
         setIsLoading(true);
 
         try {
-            const response = await aiChat(userMessage, context);
+            const response = await aiChat(userMessage, context, accessToken);
             setMessages(prev => [...prev, { role: 'assistant', content: response }]);
         } catch {
             setMessages(prev => [...prev, {
@@ -66,7 +68,7 @@ export default function AIAssistant({ files, links, todos, chats, onAddTodo }: A
         setSearchResults([]);
 
         try {
-            const results = await aiSearch(input, context);
+            const results = await aiSearch(input, context, accessToken);
             setSearchResults(results);
         } catch (error) {
             console.error('Search error:', error);
@@ -81,7 +83,7 @@ export default function AIAssistant({ files, links, todos, chats, onAddTodo }: A
         setSuggestions([]);
 
         try {
-            const results = await aiSuggestions(context);
+            const results = await aiSuggestions(context, accessToken);
             setSuggestions(results);
         } catch (error) {
             console.error('Suggestions error:', error);
@@ -103,7 +105,7 @@ export default function AIAssistant({ files, links, todos, chats, onAddTodo }: A
                 content = chats[0].content.substring(0, 2000);
             }
 
-            const result = await aiSummarize(content, type === 'chats' ? 'chat' : 'todos');
+            const result = await aiSummarize(content, type === 'chats' ? 'chat' : 'todos', accessToken);
             setSummary(result);
         } catch {
             setSummary('Could not generate summary');

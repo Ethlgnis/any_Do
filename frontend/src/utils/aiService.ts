@@ -1,174 +1,104 @@
-// Google Gemini AI Service
-// Provides AI chat, summarization, suggestions, and smart search
+// AI Service - all requests go through backend (no API keys in frontend)
+import { apiClient } from './apiClient';
 
-const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+export type AiChatContext = {
+  files?: unknown[];
+  links?: unknown[];
+  todos?: { completed?: boolean; title?: string }[];
+  chats?: unknown[];
+};
+
+export type AiSearchResult = { type: string; name: string; reason: string }[];
 
 /**
- * Send a message to Gemini AI
+ * AI Chat - answer questions about user's data (via backend)
  */
-async function callGemini(prompt: string, systemInstruction = '') {
-    try {
-        const requestBody = {
-            contents: [{
-                parts: [{ text: systemInstruction ? `${systemInstruction}\n\nUser: ${prompt}` : prompt }]
-            }],
-            generationConfig: {
-                temperature: 0.7,
-                topK: 40,
-                topP: 0.95,
-                maxOutputTokens: 1024,
-            }
-        };
-
-        const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestBody)
-        });
-
-        if (!response.ok) {
-            const error = await response.json();
-            console.error('Gemini API Error:', error);
-            throw new Error(error.error?.message || 'AI request failed');
-        }
-
-        const data = await response.json();
-        return data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response generated';
-    } catch (error) {
-        console.error('Gemini call failed:', error);
-        throw error;
-    }
+export async function aiChat(
+  message: string,
+  context: AiChatContext = {},
+  accessToken: string | null,
+): Promise<string> {
+  const result = await apiClient.post<{ text?: string }>(
+    '/ai/chat',
+    { message, context },
+    accessToken,
+  );
+  return typeof result === 'string' ? result : (result?.text ?? '');
 }
 
 /**
- * AI Chat Assistant - Answer questions about user's data
+ * AI Smart Search - natural language search across data (via backend)
  */
-export async function aiChat(message: string, context: any = {}) {
-    const systemPrompt = `You are Kiro, a friendly AI assistant for AnyDo, a personal productivity app. 
-You help users manage their files, links, todos, and chats.
-Be helpful, concise, and friendly. Use emojis occasionally.
-Answer questions based on the user's data context provided.
-
-User's current data:
-- Files: ${context.files?.length || 0} files stored
-- Links: ${context.links?.length || 0} bookmarks saved
-- Todos: ${context.todos?.length || 0} tasks (${context.todos?.filter((t: any) => t.completed)?.length || 0} completed)
-- Chats: ${context.chats?.length || 0} imported chats
-
-${context.files?.length ? 'Files: ' + context.files.map((f: any) => f.name).join(', ') : ''}
-${context.links?.length ? 'Links: ' + context.links.map((l: any) => l.title || l.url).join(', ') : ''}
-${context.todos?.length ? 'Todos: ' + context.todos.map((t: any) => `${t.completed ? '✓' : '○'} ${t.title}`).join(', ') : ''}`;
-
-    return callGemini(message, systemPrompt);
+export async function aiSearch(
+  query: string,
+  data: Record<string, unknown> = {},
+  accessToken: string | null,
+): Promise<AiSearchResult> {
+  try {
+    const result = await apiClient.post<AiSearchResult>(
+      '/ai/search',
+      { query, data },
+      accessToken,
+    );
+    return Array.isArray(result) ? result : [];
+  } catch (error) {
+    console.error('AI Search error:', error);
+    return [];
+  }
 }
 
 /**
- * AI Smart Search - Natural language search across data
+ * AI Summarization (via backend)
  */
-export async function aiSearch(query: string, data: any = {}) {
-    const prompt = `Search query: "${query}"
-
-Available data to search:
-FILES:
-${data.files?.map((f: any) => `- ${f.name} (${f.type}, ${f.size} bytes)`).join('\n') || 'No files'}
-
-LINKS:
-${data.links?.map((l: any) => `- ${l.title || 'Untitled'}: ${l.url}`).join('\n') || 'No links'}
-
-TODOS:
-${data.todos?.map((t: any) => `- [${t.completed ? 'x' : ' '}] ${t.title}${t.description ? ': ' + t.description : ''}`).join('\n') || 'No todos'}
-
-CHATS:
-${data.chats?.map((c: any) => `- ${c.name} (${c.messageCount} messages)`).join('\n') || 'No chats'}
-
-Based on the search query, find and return the most relevant items. 
-Format as a JSON array with objects having: { type: "file"|"link"|"todo"|"chat", name: string, reason: string }
-Return only the JSON array, no other text.`;
-
-    try {
-        const response = await callGemini(prompt);
-        // Try to parse JSON from response
-        const jsonMatch = response.match(/\[[\s\S]*\]/);
-        if (jsonMatch) {
-            return JSON.parse(jsonMatch[0]);
-        }
-        return [];
-    } catch (error) {
-        console.error('AI Search error:', error);
-        return [];
-    }
+export async function aiSummarize(
+  content: string,
+  type: 'chat' | 'file' | 'todos' = 'chat',
+  accessToken: string | null,
+): Promise<string> {
+  const result = await apiClient.post<string | { text?: string }>(
+    '/ai/summarize',
+    { content, type },
+    accessToken,
+  );
+  return typeof result === 'string' ? result : (result?.text ?? '');
 }
 
 /**
- * AI Summarization - Summarize chats or text content
+ * AI Suggestions (via backend)
  */
-export async function aiSummarize(content: string, type: 'chat' | 'file' | 'todos' = 'chat') {
-    const prompts: Record<string, string> = {
-        chat: `Summarize this chat conversation in 2-3 sentences. Highlight key topics and any action items:
-
-${content}`,
-        file: `Summarize this file content briefly:
-
-${content}`,
-        todos: `Give a quick status overview of these todos:
-
-${content}`
-    };
-
-    return callGemini(prompts[type] || prompts.chat);
+export async function aiSuggestions(
+  context: Record<string, unknown> = {},
+  accessToken: string | null,
+): Promise<string[]> {
+  try {
+    const result = await apiClient.post<string[]>(
+      '/ai/suggestions',
+      { context },
+      accessToken,
+    );
+    return Array.isArray(result) ? result : [];
+  } catch (error) {
+    console.error('AI Suggestions error:', error);
+    return [
+      'Organize your files into folders',
+      'Review pending tasks',
+      'Clean up old bookmarks',
+    ];
+  }
 }
 
 /**
- * AI Suggestions - Smart todo/task suggestions
+ * Quick AI actions (via backend)
  */
-export async function aiSuggestions(context: any = {}) {
-    const prompt = `Based on the user's current data, suggest 3-5 actionable tasks they might want to add.
-
-Current todos:
-${context.todos?.map((t: any) => `- [${t.completed ? 'x' : ' '}] ${t.title}`).join('\n') || 'No current todos'}
-
-Links they've saved:
-${context.links?.slice(0, 10).map((l: any) => `- ${l.title || l.url}`).join('\n') || 'No links'}
-
-Files they have:
-${context.files?.slice(0, 10).map((f: any) => f.name).join(', ') || 'No files'}
-
-Suggest practical, specific tasks. Return as a JSON array of strings.
-Return only the JSON array, no other text.`;
-
-    try {
-        const response = await callGemini(prompt);
-        const jsonMatch = response.match(/\[[\s\S]*\]/);
-        if (jsonMatch) {
-            return JSON.parse(jsonMatch[0]);
-        }
-        return ['Organize your files into folders', 'Review pending tasks', 'Clean up old bookmarks'];
-    } catch (error) {
-        console.error('AI Suggestions error:', error);
-        return ['Organize your files into folders', 'Review pending tasks', 'Clean up old bookmarks'];
-    }
-}
-
-/**
- * Quick AI actions
- */
-export async function aiQuickAction(action: string, data: any) {
-    switch (action) {
-        case 'summarize_todos': {
-            const todoText = data.todos?.map((t: any) => `${t.completed ? '✓' : '○'} ${t.title}`).join('\n');
-            return aiSummarize(todoText, 'todos');
-        }
-
-        case 'summarize_chat':
-            return aiSummarize(data.content, 'chat');
-
-        case 'suggest_tasks':
-            return aiSuggestions(data);
-
-        default:
-            return 'Unknown action';
-    }
+export async function aiQuickAction(
+  action: string,
+  data: Record<string, unknown>,
+  accessToken: string | null,
+): Promise<string> {
+  const result = await apiClient.post<string | { text?: string }>(
+    '/ai/quick-action',
+    { action, data },
+    accessToken,
+  );
+  return typeof result === 'string' ? result : (result?.text ?? 'Unknown action');
 }

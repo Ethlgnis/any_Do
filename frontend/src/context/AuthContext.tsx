@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { sendLoginNotification } from '../utils/emailService';
+import { apiClient } from '../utils/apiClient';
 
 declare global {
     interface Window {
@@ -19,73 +20,56 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [isLoading, setIsLoading] = useState(true);
     const [tokenClient, setTokenClient] = useState<any>(null);
 
-    // Initialize Google Identity Services
+    // Restore session from localStorage and validate with backend
     useEffect(() => {
-        const initializeGoogleAuth = () => {
-            if (window.google?.accounts) {
-                // Initialize token client for Drive API access
-                const client = window.google.accounts.oauth2.initTokenClient({
-                    client_id: GOOGLE_CLIENT_ID,
-                    scope: 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
-                    callback: handleTokenResponse,
-                });
-                setTokenClient(client);
+        const bootstrapAuth = async () => {
+            const savedUser = localStorage.getItem('anydo_user');
+            const savedToken = localStorage.getItem('anydo_token');
 
-                // Check for existing session
-                const savedUser = localStorage.getItem('anydo_user');
-                const savedToken = localStorage.getItem('anydo_token');
-                if (savedUser && savedToken) {
-                    setUser(JSON.parse(savedUser));
+            if (savedUser && savedToken) {
+                try {
+                    // Validate token with backend
+                    const me = await apiClient.get<any>('/auth/me', savedToken);
+                    const parsedUser = JSON.parse(savedUser);
+                    setUser({ ...parsedUser, role: me.role });
                     setAccessToken(savedToken);
+                } catch {
+                    localStorage.removeItem('anydo_user');
+                    localStorage.removeItem('anydo_token');
                 }
-                setIsLoading(false);
-            } else {
-                // Wait for Google script to load
-                setTimeout(initializeGoogleAuth, 100);
             }
+            setIsLoading(false);
         };
 
-        initializeGoogleAuth();
+        bootstrapAuth();
     }, []);
 
-    const handleTokenResponse = async (response: any) => {
-        if (response.access_token) {
-            setAccessToken(response.access_token);
-            localStorage.setItem('anydo_token', response.access_token);
-
-            // Fetch user profile
+    const login = useCallback(
+        async (email: string, password: string) => {
             try {
-                const profileRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-                    headers: { Authorization: `Bearer ${response.access_token}` }
-                });
-                const profile = await profileRes.json();
-                const userData = {
-                    id: profile.id,
-                    name: profile.name,
-                    email: profile.email,
-                    picture: profile.picture,
-                };
-                setUser(userData);
-                localStorage.setItem('anydo_user', JSON.stringify(userData));
+                const result = await apiClient.post<{
+                    accessToken: string;
+                    user: { id: string; name: string; email: string; role: string };
+                }>('/auth/login', { email, password });
 
-                // Send login notification email
-                sendLoginNotification(userData);
-            } catch (error) {
-                console.error('Error fetching user profile:', error);
+                setAccessToken(result.accessToken);
+                setUser(result.user);
+                localStorage.setItem('anydo_token', result.accessToken);
+                localStorage.setItem('anydo_user', JSON.stringify(result.user));
+
+                // Optional: send notification email
+                sendLoginNotification(result.user);
+            } catch (error: any) {
+                if (error?.status !== 401) {
+                    console.error('Login failed', error);
+                }
+                throw error;
             }
-        }
-    };
-
-    const login = useCallback(() => {
-        if (tokenClient) {
-            tokenClient.requestAccessToken();
-        }
-    }, [tokenClient]);
+        },
+        [],
+    );
 
     const logout = useCallback(() => {
-        if (accessToken && window.google?.accounts) {
-            window.google.accounts.oauth2.revoke(accessToken);
-        }
         setUser(null);
         setAccessToken(null);
 

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Search, Menu, X, Cloud, CloudOff, LogOut, User, Crown } from 'lucide-react';
+import { Search, Menu, X, Cloud, CloudOff, LogOut, User, Crown, Shield } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import './Navbar.scss';
 
@@ -102,6 +102,17 @@ export default function Navbar({
                         <Crown size={20} />
                         <span className="premium-badge">PRO</span>
                     </button>
+
+                    {isAuthenticated && user?.role === 'admin' && (
+                        <button
+                            className="admin-nav-btn"
+                            onClick={() => onMenuChange?.('admin')}
+                            title="Admin Panel"
+                        >
+                            <Shield size={20} />
+                            <span>Admin</span>
+                        </button>
+                    )}
 
                     {isAuthenticated && user ? (
                         <>

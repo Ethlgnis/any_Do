@@ -11,6 +11,7 @@ import {
     updateFileMetadata, getFileMetadataById
 } from '../utils/storage';
 import { syncDataToDrive, loadDataFromDrive, uploadFileToDrive, deleteFileFromDrive } from '../utils/driveStorage';
+import { apiClient } from '../utils/apiClient';
 
 interface AnyDoFile {
     id: string;
@@ -222,20 +223,44 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         setLinks(getLinks());
     }, []);
 
-    const handleTodoAdd = useCallback((todo: any) => {
+    const handleTodoAdd = useCallback(async (todo: any) => {
         saveTodo(todo);
         setTodos(getTodos());
-    }, []);
 
-    const handleTodoUpdate = useCallback((id: string, updates: any) => {
+        if (isAuthenticated && accessToken) {
+            try {
+                await apiClient.post('/todos', todo, accessToken);
+            } catch (error) {
+                console.error('Error creating todo on backend:', error);
+            }
+        }
+    }, [isAuthenticated, accessToken]);
+
+    const handleTodoUpdate = useCallback(async (id: string, updates: any) => {
         updateTodo(id, updates);
         setTodos(getTodos());
-    }, []);
 
-    const handleTodoDelete = useCallback((id: string) => {
+        if (isAuthenticated && accessToken) {
+            try {
+                await apiClient.patch(`/todos/${id}`, updates, accessToken);
+            } catch (error) {
+                console.error('Error updating todo on backend:', error);
+            }
+        }
+    }, [isAuthenticated, accessToken]);
+
+    const handleTodoDelete = useCallback(async (id: string) => {
         deleteTodo(id);
         setTodos(getTodos());
-    }, []);
+
+        if (isAuthenticated && accessToken) {
+            try {
+                await apiClient.del(`/todos/${id}`, accessToken);
+            } catch (error) {
+                console.error('Error deleting todo on backend:', error);
+            }
+        }
+    }, [isAuthenticated, accessToken]);
 
     const handleChatAdd = useCallback((chat: any) => {
         saveChat(chat);

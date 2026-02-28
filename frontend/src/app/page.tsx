@@ -1,9 +1,14 @@
 "use client";
 
+import dynamic from 'next/dynamic';
 import { useAppContext } from '../context/AppContext';
 import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/navigation';
-import Dashboard from '../components/sections/Dashboard';
+
+const Dashboard = dynamic(
+  () => import('../components/sections/Dashboard'),
+  { ssr: true }
+);
 
 export default function DashboardPage() {
     const { files, links, todos, chats } = useAppContext();
