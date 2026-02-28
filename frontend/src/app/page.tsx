@@ -11,7 +11,7 @@ const Dashboard = dynamic(
 );
 
 export default function DashboardPage() {
-    const { files, links, todos, chats } = useAppContext();
+    const { links, chats } = useAppContext();
     const { user } = useAuth();
     const router = useRouter();
 
@@ -25,9 +25,7 @@ export default function DashboardPage() {
 
     return (
         <Dashboard
-            files={files}
             links={links}
-            todos={todos}
             chats={chats}
             user={user}
             onNavigate={handleNavigate}

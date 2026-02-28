@@ -2,9 +2,7 @@
 import { apiClient } from './apiClient';
 
 export type AiChatContext = {
-  files?: unknown[];
   links?: unknown[];
-  todos?: { completed?: boolean; title?: string }[];
   chats?: unknown[];
 };
 
@@ -52,7 +50,7 @@ export async function aiSearch(
  */
 export async function aiSummarize(
   content: string,
-  type: 'chat' | 'file' | 'todos' = 'chat',
+  type: 'chat' | 'link' = 'chat',
   accessToken: string | null,
 ): Promise<string> {
   const result = await apiClient.post<string | { text?: string }>(
@@ -80,8 +78,8 @@ export async function aiSuggestions(
   } catch (error) {
     console.error('AI Suggestions error:', error);
     return [
-      'Organize your files into folders',
-      'Review pending tasks',
+      'Review your community links',
+      'Check your friend list',
       'Clean up old bookmarks',
     ];
   }

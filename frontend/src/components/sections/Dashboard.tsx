@@ -8,16 +8,14 @@ import { aiChat } from '../../utils/aiService';
 import './Dashboard.scss';
 
 interface DashboardProps {
-    files: any[];
     links: any[];
-    todos: any[];
     chats: any[];
     user?: any;
     onNavigate: (sectionId: string) => void;
 }
 
 export default function Dashboard({
-    files, links, todos, chats, user,
+    links, chats, user,
     onNavigate
 }: DashboardProps) {
     const { accessToken } = useAuth();
@@ -58,7 +56,7 @@ export default function Dashboard({
         setIsLoading(true);
 
         try {
-            const context = { files, links, todos, chats };
+            const context = { links, chats };
             const response = await aiChat(userMessage.content, context, accessToken);
             
             const aiMessage = {
@@ -119,10 +117,6 @@ export default function Dashboard({
                                 <Plus size={24} />
                             </div>
                             <div className="actions-menu">
-                                <button className="action-item" onClick={() => onNavigate('files')} type="button">
-                                    <Image size={18} />
-                                    <span>Add file or photo</span>
-                                </button>
                                 <button className="action-item" type="button">
                                     <Search size={18} />
                                     <span>Deep research</span>
@@ -162,14 +156,9 @@ export default function Dashboard({
                                     <Send size={20} />
                                 </button>
                             ) : (
-                                <>
-                                    <button type="button" className="prompt-btn" title="Add files" onClick={() => onNavigate('files')}>
-                                        <FolderOpen size={20} />
-                                    </button>
-                                    <button type="button" className="prompt-btn" title="Voice input">
-                                        <MessageCircle size={20} />
-                                    </button>
-                                </>
+                                <button type="button" className="prompt-btn" title="Voice input">
+                                    <MessageCircle size={20} />
+                                </button>
                             )}
                         </div>
                     </form>

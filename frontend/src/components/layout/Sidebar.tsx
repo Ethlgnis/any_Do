@@ -16,9 +16,7 @@ import './Sidebar.scss';
 
 const navItems = [
     { id: 'dashboard', label: 'Chat with AnyDo AI', icon: Sparkles },
-    { id: 'files', label: 'Files', icon: FolderOpen },
     { id: 'links', label: 'Community', icon: Globe },
-    { id: 'todos', label: 'To-Do List', icon: CheckSquare },
     { id: 'chats', label: 'Friend List', icon: Users },
 ];
 
