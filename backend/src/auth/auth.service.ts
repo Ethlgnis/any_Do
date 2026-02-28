@@ -1,12 +1,9 @@
-import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Model } from 'mongoose';
-import * as bcrypt from 'bcrypt';
 import { User, UserDocument } from '../users/schemas/user.schema';
-import { RegisterDto } from './dto/register.dto';
-import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -16,45 +13,44 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  async register(dto: RegisterDto) {
-    const existing = await this.userModel.findOne({ email: dto.email.toLowerCase() }).exec();
-    if (existing) {
-      throw new ConflictException('Email is already in use');
-    }
+  async googleLogin(profile: any, accessToken: string, refreshToken: string) {
+    const email = profile.emails?.[0]?.value?.toLowerCase();
+    const googleId = profile.id;
+    const name = profile.displayName;
+    const picture = profile.photos?.[0]?.value ?? '';
 
-    const saltRounds = 10;
-    const passwordHash = await bcrypt.hash(dto.password, saltRounds);
+    // Find or create user in our DB
+    let user = await this.userModel.findOne({ googleId }).exec();
 
-    const created = await this.userModel.create({
-      email: dto.email.toLowerCase(),
-      name: dto.name,
-      passwordHash,
-      role: 'user',
-    });
-
-    return this.buildAuthResponse(created);
-  }
-
-  async validateUser(email: string, password: string): Promise<UserDocument> {
-    const user = await this.userModel.findOne({ email: email.toLowerCase() }).exec();
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      // Try to find by email (in case user existed before)
+      user = await this.userModel.findOne({ email }).exec();
     }
 
-    const valid = await bcrypt.compare(password, user.passwordHash);
-    if (!valid) {
-      throw new UnauthorizedException('Invalid credentials');
+    if (user) {
+      // Update tokens and picture
+      user.driveAccessToken = accessToken;
+      if (refreshToken) user.driveRefreshToken = refreshToken;
+      user.picture = picture;
+      user.name = name;
+      user.googleId = googleId;
+      await user.save();
+    } else {
+      user = await this.userModel.create({
+        googleId,
+        email,
+        name,
+        picture,
+        driveAccessToken: accessToken,
+        driveRefreshToken: refreshToken ?? '',
+        role: 'user',
+      });
     }
 
-    return user;
+    return this.buildAuthResponse(user, accessToken);
   }
 
-  async login(dto: LoginDto) {
-    const user = await this.validateUser(dto.email, dto.password);
-    return this.buildAuthResponse(user);
-  }
-
-  private async buildAuthResponse(user: UserDocument) {
+  private async buildAuthResponse(user: UserDocument, driveAccessToken: string) {
     const payload = {
       sub: user._id.toString(),
       email: user.email,
@@ -68,10 +64,12 @@ export class AuthService {
 
     return {
       accessToken: token,
+      driveAccessToken,
       user: {
         id: user._id.toString(),
         email: user.email,
         name: user.name,
+        picture: user.picture,
         role: user.role,
       },
     };
