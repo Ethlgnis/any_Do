@@ -87,6 +87,10 @@
     /* Navbar specific */
     --navbar-bg: rgba(8, 11, 20, 0.82);
     --navbar-border: rgba(79, 142, 247, 0.1);
+
+    /* Gradients */
+    --bg-gradient: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(79, 142, 247, 0.04) 0%, transparent 60%),
+                   radial-gradient(ellipse 60% 40% at 80% 80%, rgba(129, 140, 248, 0.02) 0%, transparent 50%);
 }
 
 [data-theme='light'] {
@@ -120,12 +124,15 @@
     --glass-border: rgba(0, 0, 0, 0.05);
 
     /* Sidebar specific (Light) */
-    --sidebar-bg: #ffffff;
-    --sidebar-border: rgba(0, 0, 0, 0.06);
-    --sidebar-item-hover: rgba(0, 0, 0, 0.04);
-    --sidebar-item-active: rgba(0, 0, 0, 0.06);
+    --sidebar-bg: #f8fafc;      // Slate 50 (Grayish white)
+    --sidebar-border: rgba(0, 0, 0, 0.05);
+    --sidebar-item-hover: rgba(0, 0, 0, 0.03);
+    --sidebar-item-active: #ffffff; // Active item stands out on pure white
 
     /* Navbar specific (Light) */
     --navbar-bg: rgba(255, 255, 255, 0.85);
     --navbar-border: rgba(0, 0, 0, 0.08);
+
+    /* Pure White: No gradients */
+    --bg-gradient: none;
 }
