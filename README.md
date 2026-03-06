@@ -143,4 +143,4 @@ npm run dev          # 🚀 Starts both frontend + backend via Turborepo
 
 ## 📄 License
 
-This project is private and proprietary.
+This project is licensed under the [MIT License](LICENSE).
