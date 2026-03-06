@@ -1,0 +1,7 @@
+{
+  "name": "@anydo/types",
+  "version": "1.0.0",
+  "main": "src/user.ts",
+  "types": "src/user.ts",
+  "dependencies": {}
+}

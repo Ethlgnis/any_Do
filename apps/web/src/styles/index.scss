@@ -1,0 +1,23 @@
+@use './variables' as *;
+@use './reset';
+@use './typography';
+@use './animations';
+@use './utils';
+@use './layout';
+
+/* ============================================
+   AnyDo - Global Entry (Professional Structure)
+   ============================================ */
+
+/* Premium Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* Global body background - Pure Professional White */
+body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    background-image: var(--bg-gradient);
+    min-height: 100vh;
+}
